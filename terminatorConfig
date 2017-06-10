@@ -1,0 +1,163 @@
+[global_config]
+  borderless = True
+  geometry_hinting = True
+  inactive_color_offset = 0.75
+  suppress_multiple_term_dialog = True
+  tab_position = hidden
+  title_hide_sizetext = True
+  title_inactive_bg_color = "#2e3436"
+  title_receive_bg_color = "#2e3436"
+  title_transmit_bg_color = "#2e3436"
+  window_state = maximise
+[keybindings]
+  layout_launcher = <Super>l
+  move_tab_left = None
+  move_tab_right = None
+  next_tab = None
+  prev_tab = <Primary><Shift>q
+[layouts]
+  [[default]]
+    [[[child1]]]
+      directory = ""
+      parent = window0
+      profile = darkTerminator
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+  [[ct]]
+    [[[child0]]]
+      fullscreen = False
+      last_active_term = f9d48f27-c1fd-42df-acb9-975d3e0dbc8b
+      last_active_window = True
+      maximised = True
+      order = 0
+      parent = ""
+      position = 0:0
+      size = 1366, 768
+      title = /bin/bash
+      type = Window
+    [[[child1]]]
+      order = 0
+      parent = child0
+      position = 683
+      ratio = 0.5
+      type = HPaned
+    [[[child2]]]
+      order = 0
+      parent = child1
+      position = 384
+      ratio = 0.5
+      type = VPaned
+    [[[child5]]]
+      order = 1
+      parent = child1
+      position = 384
+      ratio = 0.5
+      type = VPaned
+    [[[terminal3]]]
+      order = 0
+      parent = child2
+      profile = default
+      type = Terminal
+      uuid = f9d48f27-c1fd-42df-acb9-975d3e0dbc8b
+    [[[terminal4]]]
+      order = 1
+      parent = child2
+      profile = default
+      type = Terminal
+      uuid = 3cd87227-4da1-47e1-a0b6-42a331d8265e
+    [[[terminal6]]]
+      order = 0
+      parent = child5
+      profile = default
+      type = Terminal
+      uuid = 03b229e1-7b24-42fe-9ad5-a3444ac9aebe
+    [[[terminal7]]]
+      order = 1
+      parent = child5
+      profile = default
+      type = Terminal
+      uuid = 3183932f-8789-4a06-927f-865d1a331bdc
+  [[ctGrouped]]
+    [[[child0]]]
+      fullscreen = False
+      last_active_term = 64eae614-a327-4bd7-964b-57b5824d1185
+      last_active_window = True
+      maximised = False
+      order = 0
+      parent = ""
+      position = 683:0
+      size = 683, 768
+      title = /bin/bash
+      type = Window
+    [[[child1]]]
+      order = 0
+      parent = child0
+      position = 342
+      ratio = 0.500732064422
+      type = HPaned
+    [[[child2]]]
+      order = 0
+      parent = child1
+      position = 384
+      ratio = 0.5
+      type = VPaned
+    [[[child5]]]
+      order = 1
+      parent = child1
+      position = 384
+      ratio = 0.5
+      type = VPaned
+    [[[terminal3]]]
+      order = 0
+      parent = child2
+      profile = darkTerminal
+      type = Terminal
+      uuid = 54382389-7f6f-4996-89b2-890d7c6c373d
+    [[[terminal4]]]
+      order = 1
+      parent = child2
+      profile = darkTerminal
+      type = Terminal
+      uuid = 9a24e177-3855-45f6-abec-ccb9a78ca863
+    [[[terminal6]]]
+      order = 0
+      parent = child5
+      profile = darkTerminal
+      type = Terminal
+      uuid = 64eae614-a327-4bd7-964b-57b5824d1185
+    [[[terminal7]]]
+      order = 1
+      parent = child5
+      profile = darkTerminal
+      type = Terminal
+      uuid = b178fdb6-2a32-410a-9dbb-0a8d58713def
+[plugins]
+[profiles]
+  [[default]]
+    background_darkness = 0.43
+    background_type = transparent
+    copy_on_selection = True
+    cursor_color = "#aaaaaa"
+    custom_command = configureTerminator
+    icon_bell = False
+    scrollbar_position = hidden
+    show_titlebar = False
+  [[alsamixer]]
+    background_darkness = 0.39
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    custom_command = alsamixer -c 0
+    login_shell = True
+    show_titlebar = False
+    use_custom_command = True
+  [[ct]]
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+  [[htop]]
+    cursor_color = "#aaaaaa"
+    custom_command = htop -C
+    login_shell = True
+    show_titlebar = False
+    use_custom_command = True

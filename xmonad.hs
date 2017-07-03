@@ -1,3 +1,4 @@
+--import XMonad.Hooks.EwmhDesktops
 ------------------------------------------------------------
 --Location: ~/.xmonad/xmonad.hs
 --Written by github.com/chrisfoster4
@@ -12,7 +13,7 @@ import XMonad.Layout.Grid
 import XMonad.Util.EZConfig--(additionalKeys) -- Needed for hotkeys.
 import XMonad.Actions.SpawnOn
 import qualified XMonad.StackSet as W
-
+import XMonad.Hooks.SetWMName
 -----------------------------------------------------------
 --Settings Screen Layouts
 -----------------------------------------------------------
@@ -28,6 +29,7 @@ myLayout = Full ||| tiled  ||| Grid
 -----------------------------------------------------------
 --Main function
 -----------------------------------------------------------
+
 main = do
     xmonad $ defaults
         {
@@ -38,41 +40,61 @@ main = do
 --Personal Hotkeys
 -----------------------------------------------------------
 
---Find keys string equals in /usr/include/X11/XF86keysym.h
-
+--Find keys string equals in /usr/include/X11/XF86keysym.h or in /usr/include/X11/keysymdef.h
+--0x0060 = grave accent
 	 `additionalKeys` 	  
 	[ --System Hotkeys`
 	  ((mod1Mask, xK_g),withFocused $windows.W.sink),--Remapping tile floating window to alt g 
-	  ((mod4Mask, xK_p), spawn "scrot '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f ~/Pictures/Screenshots/'"), --Takes and saves screenshot
+	  ((mod1Mask, xK_y),sendMessage Shrink),--remapping alt h to alt y
+	  ((mod1Mask ,xK_u),windows W.swapDown),--remapping alt j to alt u
+	  ((mod1Mask,xK_o),sendMessage Expand),--remapping alt l to alt o
+	  ((mod1Mask ,xK_i),windows W.focusUp),--remapping alt k to alt 
+	  ((mod1Mask .|. shiftMask ,xK_u),windows W.swapDown), --remapping alt shift j to alt shift u
+	  ((mod1Mask .|. shiftMask ,xK_i),windows W.swapUp), --remapping alt shift k to alt shift i
+	  ((mod1Mask ,0x0060),withFocused hide), --Show desktop 
+	 
+	  --Lock and Screenshot
+	  ((mod4Mask .|. controlMask, xK_p), spawn "scrot '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/Pictures/Screenshots/'"), --Takes and saves screenshot
+	  ((mod4Mask .|. controlMask .|. shiftMask, xK_p), spawn "scrot -u '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/Pictures/Screenshots/'"), --Takes and saves screenshot.Only the currently focused window
 	  ((mod1Mask .|. controlMask, xK_l), spawn "myLockScript"), --Lock screen
 	  ((mod1Mask .|. mod4Mask .|. controlMask, xK_l),spawn "pkill -kill -u `whoami`"),
+	  --Hotkeys for mouse actions
  	  ((mod4Mask, xK_x),spawn "xdotool click 1"),	--left click
  	  ((mod4Mask, xK_c),spawn "xdotool click 2"),	--middle click
  	  ((mod4Mask, xK_v),spawn "xdotool click 3"),	--right click
-	 
+	  --Remapping close from alt shift c to alt backspace and alt c
+	  ((mod1Mask, xK_BackSpace),kill),
+	  ((mod1Mask, xK_c),kill),
+
 	  --Volume Control Hotkeys
-	  ((mod1Mask, xK_m),spawn "amixer -q set Master toggle && amixer -c 0 sset Speaker toggle"),
-	  ((mod4Mask .|. mod1Mask .|. controlMask, xK_minus),spawn "amixer sset Master 10%- && amixer -c 1 sset Speaker 5%-"),
-	  ((mod4Mask .|. mod1Mask .|. controlMask, xK_equal),spawn "amixer sset Master 10%- && amixer -c 1 sset Speaker 5%+"),
-	  ((mod4Mask .|. controlMask, xK_minus),spawn "amixer sset Master 10%+ && amixer -c 1 sset Speaker 10%-"),
+	  ((mod1Mask, xK_m),spawn "amixer -q set Master toggle && amixer -c 0 sset Speaker toggle && amixer -c 1 sset Speaker toggle"),
+	  ((mod4Mask .|. mod1Mask .|. controlMask, xK_minus),spawn "amixer sset Master 5%- && amixer -c 1 sset Speaker 5%-"),
+	  ((mod4Mask .|. mod1Mask .|. controlMask, xK_equal),spawn "amixer sset Master 5%+ && amixer -c 1 sset Speaker 5%+"),
+	  ((mod4Mask .|. controlMask, xK_minus),spawn "amixer sset Master 10%- && amixer -c 1 sset Speaker 10%-"),
 	  ((mod4Mask .|. controlMask, xK_equal),spawn "amixer sset Master 10%+ && amixer -c 1 sset Speaker 10%+"),
 	  
 	  --Brightness Control Keys
 	  ((controlMask .|. shiftMask, xK_minus),spawn "xbacklight -time 0 -dec 10%"),
 	  ((controlMask .|. shiftMask,xK_equal),spawn "xbacklight -time 0 -inc 10%"),
-	  ((mod1Mask , xK_s), spawn "toggleScreen"),--Toggle between 0% and 100% brightness.Useful to type a password in plaintext in a public place
+	  ((mod1Mask .|. shiftMask, xK_l), spawn "toggleScreen"),--Toggle between 0% and 100% brightness.Useful to type a password in plaintext in a public place
 	  --Quick type hotkeys
-	  ((mod1Mask, xK_f),spawn "sleep 0.1 && xdotool key up alt && xdotool key up ctrl && xdotool type --delay 0 https://github.com/chrisfoster4/"), 
+	  ((mod4Mask,xK_w),spawn "quickType while"),
+	  ((mod4Mask,xK_o),spawn "quickType javaSystemOut"),--broken
+	  ((mod4Mask, xK_n),spawn "quickType githubName"), 
+	  ((mod1Mask, xK_s),spawn "vimSave"),
+	  ((mod1Mask .|. shiftMask, xK_s),spawn "vimSaveAndGoToInsertMode"),
 	  --Program Launcher Hotkeys
-	  ((controlMask .|. mod1Mask, xK_f), spawn "firefox"),
+	  ((controlMask .|. mod1Mask, xK_f), spawn "~/Music/firefox/firefox"),
 	  ((controlMask .|. mod1Mask, xK_c), spawn "chromium"),
 	  ((controlMask .|. mod1Mask, xK_s), spawn "spotify"),
 	  ((controlMask .|. mod1Mask, xK_a), spawn "atom"),
 	  ((controlMask .|. mod1Mask, xK_z), spawn "filezilla"),
 	  ((controlMask .|. mod1Mask, xK_w), spawn "libreoffice --writer"),
 	  ((controlMask .|. mod1Mask, xK_i), spawn "libreoffice --impress"),
+	  ((controlMask .|. mod1Mask, xK_e), spawn "eclipse"),
 	  ((controlMask .|. mod1Mask, xK_b), spawn "bluej"),
 	  ((controlMask .|. mod1Mask, xK_p), spawn "pyzo"),
+	  ((controlMask .|. mod1Mask .|. shiftMask, xK_p), spawn "pycharm"),
 	  ((controlMask .|. mod1Mask, xK_m), spawn "icecat"),
 	  --Alternate terminal hotkeys
 	  ((controlMask .|. mod1Mask, xK_t), spawn "terminator"),
@@ -85,33 +107,38 @@ main = do
 	  ((controlMask .|. mod1Mask,xK_v),spawn "eog ~/Pictures/CheatSheets/vim.gif"),
 	  ((controlMask .|. mod1Mask,xK_x),spawn "eog ~/Pictures/CheatSheets/XMonad.png")
 	  ]
---	  --Switch to workspace 10
+
+	  `removeKeys`
+	  [--Conflicting with vim style navigation for terminator
+	  (mod1Mask, xK_h),
+	  (mod1Mask, xK_j),
+	  (mod1Mask, xK_k),
+	  (mod1Mask, xK_l)
+	  --(mod1Mask .|. shiftMask, xK_c) --Unmapping default close window hotkey
+	  ]
+	  	-----	  --Switch to workspace 10
 --	((myModMask, key), (windows $ W.greedyView ws)) | (key,ws) <- myExtraWorkspaces,
 --      ((myModMask .|. shiftMask, key), (windows $ W.shift ws)) | (key,ws) <- myExtraWorkspaces
 --      ]
+------------------------------------------------------------
+--Removing some default hotkeys
+------------------------------------------------------------
 ------------------------------------------------------------
 --Setting personal defaults
 ------------------------------------------------------------
 
 defaults = defaultConfig{ 
-	 terminal = "terminator -l ct", --Other options = uxterm,xterm,tmux
+	 terminal = "terminator -l ct", --Options = uxterm,xterm,tmux,terminator(terminator -l ct)
 	 startupHook = myStartupHook,
   	 normalBorderColor = "#000000", --Default colour = #FF0000 red
 	 borderWidth = 0,
 	 focusFollowsMouse = False,
 	 manageHook = myManageHook,	
-	 workspaces = myWorkspaces,
+	 --workspaces = myWorkspaces,
          modMask = mod1Mask  --mod1Mask = left alt.mod3Mask = right alt. mod4Mask = super	
 
   }
 
-------------------------------------------------------------
---Naming my workspaces
-------------------------------------------------------------
-
-
-myWorkspaces = ["1:terminal","2:browsers","3:misc0","4:misc1","5:misc2","6:messaging","7:spotify","8:htop","9:misc5"]
---myExtraWorkspaces = [(xK_0),"0"]
 
 
 
@@ -123,13 +150,26 @@ myStartupHook = do --Commands run on startup."[:digit:] indicates the workspace 
 	--Programs are moved to proper workspaces by the myManageHook... code
 	--System setup commands
 	spawnOn "1" "setxkbmap -option 'ctrl:nocaps'"
+	spawnOn "1" "setWMName 'LG3D'"
 	spawnOn "1" "xmodmap -e 'keycode 66=Escape'" -- Mapping Caps Lock to ESC
-	spawnOn "1" "xloadimage -onroot -fullscreen ~/Pictures/moraine_lake_canada_4k-1366x768.jpg"
+	--spawnOn "1" "xloadimage -onroot -fullscreen ~/Pictures/moraine_lake_canada_4k-1366x768.jpg"
+	spawnOn "1" "fb"
+	--spawnOn "1" "dm && feh --bg-fill ~/Pictures/moraine_lake_canada_4k-1366x768.jpg & "
+	--spawnOn "1" "dm && feh --bg-fill ~/Pictures/moraine_lake_4k-1366x768.jpg &"
+	--spawnOn "1" "dm"
+	--spawnOn "1" "populateRamDisk"
 	--Programs run on startup
-	spawnOn "1" "firefox"
-	spawnOn "1" "chromium"
-	spawnOn "1" "terminator -l ct"
+--	spawnOn "1" "~/Music/firefox/firefox"
+--	spawnOn "1" "chromium"
+--	spawnOn "1" "terminator -l ct"
 
+------------------------------------------------------------
+--Naming my workspaces
+------------------------------------------------------------
+
+
+--myWorkspaces = ["1:terminal","2:browsers","3:misc0","4:misc1","5:misc2","6:messaging","7:spotify","8:htop","9:misc5"]
+--myExtraWorkspaces = [(xK_0),"0"]
 ------------------------------------------------------------
 --Making programs spawn in certain workspaces
 ------------------------------------------------------------
@@ -137,12 +177,14 @@ myStartupHook = do --Commands run on startup."[:digit:] indicates the workspace 
 myManageHook = composeAll
 	[--Find the name of the window using xprop -name "expectedName"
 	--Currently working
-	className =? "Chromium" --> doF (W.shift "2:browsers"),
-	className =? "Firefox" --> doF (W.shift "2:browsers"),
+	className =? "Chromium" --> doF (W.shift "2"),
+	className =? "Firefox" --> doF (W.shift "2"),
 	--WIP
-	className =? "/bin/bash" --> doF (W.shift "5:mis2"),
-	className =? "spotify" --> doF (W.shift "7:spotify"),
-	className =? "Spotify" --> doF (W.shift "7:spotify"),
+	className =? "/bin/bash" --> doF (W.shift "5"),
+	appName =? "spotify" --> doF (W.shift "2"),
+	appName =? "Spotify" --> doF (W.shift "2"),
+	className =? "spotify" --> doF (W.shift "2"),
+	className =? "Spotify" --> doF (W.shift "2"),
 	className =? "virt-manager" --> doF (W.shift "5:misc0"),
 	className =? "qemu" --> doF (W.shift "5:misc0"),
 	className =? "icecat" --> doF (W.shift "6:messaging")

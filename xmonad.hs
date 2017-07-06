@@ -64,7 +64,7 @@ main = do
  	  ((mod4Mask, xK_v),spawn "xdotool click 3"),	--right click
 	  --Remapping close from alt shift c to alt backspace and alt c
 	  ((mod1Mask, xK_BackSpace),kill),
-	  ((mod1Mask, xK_c),kill),
+	  --((mod1Mask, xK_c),kill),
 
 	  --Volume Control Hotkeys
 	  ((mod1Mask, xK_m),spawn "amixer -q set Master toggle && amixer -c 0 sset Speaker toggle && amixer -c 1 sset Speaker toggle"),
@@ -81,6 +81,7 @@ main = do
 	  ((mod4Mask,xK_w),spawn "quickType while"),
 	  ((mod4Mask,xK_o),spawn "quickType javaSystemOut"),--broken
 	  ((mod4Mask, xK_n),spawn "quickType githubName"), 
+	  ((mod4Mask, xK_p),spawn "quickType print"), 
 	  ((mod1Mask, xK_s),spawn "vimSave"),
 	  ((mod1Mask .|. shiftMask, xK_s),spawn "vimSaveAndGoToInsertMode"),
 	  --Program Launcher Hotkeys
@@ -104,8 +105,8 @@ main = do
 	  ((mod1Mask, xK_t), spawn "tp"), --tp is a custom command which disable or enables my trackpad
 
 	  --CheatSheet viewer
-	  ((controlMask .|. mod1Mask,xK_v),spawn "eog ~/Pictures/CheatSheets/vim.gif"),
-	  ((controlMask .|. mod1Mask,xK_x),spawn "eog ~/Pictures/CheatSheets/XMonad.png")
+	  ((controlMask .|. mod1Mask,xK_v),spawn "feh ~/Pictures/CheatSheets/vim.gif"),
+	  ((controlMask .|. mod1Mask,xK_x),spawn "feh ~/Pictures/CheatSheets/XMonad.png")
 	  ]
 
 	  `removeKeys`
@@ -116,10 +117,7 @@ main = do
 	  (mod1Mask, xK_l)
 	  --(mod1Mask .|. shiftMask, xK_c) --Unmapping default close window hotkey
 	  ]
-	  	-----	  --Switch to workspace 10
---	((myModMask, key), (windows $ W.greedyView ws)) | (key,ws) <- myExtraWorkspaces,
---      ((myModMask .|. shiftMask, key), (windows $ W.shift ws)) | (key,ws) <- myExtraWorkspaces
---      ]
+
 ------------------------------------------------------------
 --Removing some default hotkeys
 ------------------------------------------------------------
@@ -152,16 +150,7 @@ myStartupHook = do --Commands run on startup."[:digit:] indicates the workspace 
 	spawnOn "1" "setxkbmap -option 'ctrl:nocaps'"
 	spawnOn "1" "setWMName 'LG3D'"
 	spawnOn "1" "xmodmap -e 'keycode 66=Escape'" -- Mapping Caps Lock to ESC
-	--spawnOn "1" "xloadimage -onroot -fullscreen ~/Pictures/moraine_lake_canada_4k-1366x768.jpg"
 	spawnOn "1" "fb"
-	--spawnOn "1" "dm && feh --bg-fill ~/Pictures/moraine_lake_canada_4k-1366x768.jpg & "
-	--spawnOn "1" "dm && feh --bg-fill ~/Pictures/moraine_lake_4k-1366x768.jpg &"
-	--spawnOn "1" "dm"
-	--spawnOn "1" "populateRamDisk"
-	--Programs run on startup
---	spawnOn "1" "~/Music/firefox/firefox"
---	spawnOn "1" "chromium"
---	spawnOn "1" "terminator -l ct"
 
 ------------------------------------------------------------
 --Naming my workspaces

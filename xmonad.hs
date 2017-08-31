@@ -1,4 +1,3 @@
---import XMonad.Hooks.EwmhDesktops
 ------------------------------------------------------------
 --Location: ~/.xmonad/xmonad.hs
 --Written by github.com/chrisfoster4
@@ -42,6 +41,7 @@ main = do
 
 --Find keys string equals in /usr/include/X11/XF86keysym.h or in /usr/include/X11/keysymdef.h
 --0x0060 = grave accent
+
 	 `additionalKeys` 	  
 	[ --System Hotkeys`
 	  ((mod1Mask, xK_g),withFocused $windows.W.sink),--Remapping tile floating window to alt g 
@@ -54,8 +54,8 @@ main = do
 	  ((mod1Mask ,0x0060),withFocused hide), --Show desktop 
 	 
 	  --Lock and Screenshot
-	  ((mod4Mask .|. controlMask, xK_p), spawn "scrot '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/Pictures/Screenshots/'"), --Takes and saves screenshot
-	  ((mod4Mask .|. controlMask .|. shiftMask, xK_p), spawn "scrot -u '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/Pictures/Screenshots/'"), --Takes and saves screenshot.Only the currently focused window
+	  ((mod4Mask .|. controlMask, xK_p), spawn "scrot '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/media/screenshots/'"), --Takes and saves screenshot
+	  ((mod4Mask .|. controlMask .|. shiftMask, xK_p), spawn "scrot -u '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/Pictures/screenshots/'"), --Takes and saves screenshot.Only the currently focused window
 	  ((mod1Mask .|. controlMask, xK_l), spawn "myLockScript"), --Lock screen
 	  ((mod1Mask .|. mod4Mask .|. controlMask, xK_l),spawn "pkill -kill -u `whoami`"),
 	  --Hotkeys for mouse actions
@@ -74,19 +74,21 @@ main = do
 	  ((mod4Mask .|. controlMask, xK_equal),spawn "amixer sset Master 10%+ && amixer -c 1 sset Speaker 10%+"),
 	  
 	  --Brightness Control Keys
-	  ((controlMask .|. shiftMask, xK_minus),spawn "xbacklight -time 0 -dec 10%"),
-	  ((controlMask .|. shiftMask,xK_equal),spawn "xbacklight -time 0 -inc 10%"),
+	  ((controlMask .|. shiftMask, xK_minus),spawn "brightnessChanger -d"),
+	  ((controlMask .|. shiftMask,xK_equal),spawn "brightnessChanger -i"),
 	  ((mod1Mask .|. shiftMask, xK_l), spawn "toggleScreen"),--Toggle between 0% and 100% brightness.Useful to type a password in plaintext in a public place
 	  --Quick type hotkeys
 	  ((mod4Mask,xK_w),spawn "quickType while"),
+	  ((mod4Mask .|. shiftMask,xK_p),spawn "quickType printStringHaskell"),
 	  ((mod4Mask,xK_o),spawn "quickType javaSystemOut"),--broken
 	  ((mod4Mask, xK_n),spawn "quickType githubName"), 
 	  ((mod4Mask, xK_p),spawn "quickType print"), 
 	  ((mod1Mask, xK_s),spawn "vimSave"),
 	  ((mod1Mask .|. shiftMask, xK_s),spawn "vimSaveAndGoToInsertMode"),
 	  --Program Launcher Hotkeys
-	  ((controlMask .|. mod1Mask, xK_f), spawn "~/Music/firefox/firefox"),
+	  ((controlMask .|. mod1Mask, xK_f), spawn "~/downloadedPrograms/firefox/firefox"),
 	  ((controlMask .|. mod1Mask, xK_c), spawn "chromium"),
+	  ((controlMask .|. mod1Mask .|. shiftMask, xK_c), spawn "chromium --incognito"),
 	  ((controlMask .|. mod1Mask, xK_s), spawn "spotify"),
 	  ((controlMask .|. mod1Mask, xK_a), spawn "atom"),
 	  ((controlMask .|. mod1Mask, xK_z), spawn "filezilla"),
@@ -105,9 +107,13 @@ main = do
 	  ((mod1Mask, xK_t), spawn "tp"), --tp is a custom command which disable or enables my trackpad
 
 	  --CheatSheet viewer
-	  ((controlMask .|. mod1Mask,xK_v),spawn "feh ~/Pictures/CheatSheets/vim.gif"),
-	  ((controlMask .|. mod1Mask,xK_x),spawn "feh ~/Pictures/CheatSheets/XMonad.png")
+	  ((controlMask .|. mod1Mask,xK_v),spawn "feh ~/media/CheatSheets/vim.gif"),
+	  ((controlMask .|. mod1Mask,xK_x),spawn "feh ~/media/CheatSheets/XMonad.png")
 	  ]
+
+------------------------------------------------------------
+--Removing some default hotkeys
+------------------------------------------------------------
 
 	  `removeKeys`
 	  [--Conflicting with vim style navigation for terminator
@@ -119,9 +125,6 @@ main = do
 	  ]
 
 ------------------------------------------------------------
---Removing some default hotkeys
-------------------------------------------------------------
-------------------------------------------------------------
 --Setting personal defaults
 ------------------------------------------------------------
 
@@ -132,7 +135,6 @@ defaults = defaultConfig{
 	 borderWidth = 0,
 	 focusFollowsMouse = False,
 	 manageHook = myManageHook,	
-	 --workspaces = myWorkspaces,
          modMask = mod1Mask  --mod1Mask = left alt.mod3Mask = right alt. mod4Mask = super	
 
   }
@@ -144,21 +146,14 @@ defaults = defaultConfig{
 --Commands run at startup
 ------------------------------------------------------------
 
-myStartupHook = do --Commands run on startup."[:digit:] indicates the workspace to run in"
-	--Programs are moved to proper workspaces by the myManageHook... code
-	--System setup commands
-	spawnOn "1" "setxkbmap -option 'ctrl:nocaps'"
-	spawnOn "1" "setWMName 'LG3D'"
+--Commands run on startup."[:digit:] indicates the workspace to run in"
+--Programs are moved to proper workspaces by the myManageHook below
+
+myStartupHook = do 	--System setup commands
+	spawnOn "1" "setxkbmap -option 'ctrl:nocaps'" --Disabling caps lock
 	spawnOn "1" "xmodmap -e 'keycode 66=Escape'" -- Mapping Caps Lock to ESC
-	spawnOn "1" "fb"
+	spawnOn "1" "fb" --Custom command to apply my desktop background
 
-------------------------------------------------------------
---Naming my workspaces
-------------------------------------------------------------
-
-
---myWorkspaces = ["1:terminal","2:browsers","3:misc0","4:misc1","5:misc2","6:messaging","7:spotify","8:htop","9:misc5"]
---myExtraWorkspaces = [(xK_0),"0"]
 ------------------------------------------------------------
 --Making programs spawn in certain workspaces
 ------------------------------------------------------------
@@ -166,9 +161,20 @@ myStartupHook = do --Commands run on startup."[:digit:] indicates the workspace 
 myManageHook = composeAll
 	[--Find the name of the window using xprop -name "expectedName"
 	--Currently working
+	className =? "Gimp" --> doFloat,
 	className =? "Chromium" --> doF (W.shift "2"),
 	className =? "Firefox" --> doF (W.shift "2"),
+	className =? "Evince" --> doF (W.shift "3"),
+	className =? "Xpdf" --> doF (W.shift "3"),
+	className =? "libreoffice-writer" --> doF (W.shift "3"),
+	className =? "libreoffice-calc" --> doF (W.shift "3"),
+	className =? "libreoffice-startcenter" --> doF (W.shift "3"),
+	className =? "libreoffice-impress" --> doF (W.shift "3"),
+	className =? "jetbrains-idea-ce" --> doF (W.shift "3"),
+	className =? "pavucontrol" --> doF (W.shift "8"),
 	--WIP
+	className =? "eclipse" --> doF (W.shift "4"),
+	className =? "Eclipse" --> doF (W.shift "4"),
 	className =? "/bin/bash" --> doF (W.shift "5"),
 	appName =? "spotify" --> doF (W.shift "2"),
 	appName =? "Spotify" --> doF (W.shift "2"),

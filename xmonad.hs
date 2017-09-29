@@ -89,7 +89,7 @@ main = do
 	  ((controlMask .|. mod1Mask, xK_f), spawn "~/downloadedPrograms/firefox/firefox"),
 	  ((controlMask .|. mod1Mask, xK_c), spawn "chromium"),
 	  ((controlMask .|. mod1Mask .|. shiftMask, xK_c), spawn "chromium --incognito"),
-	  ((controlMask .|. mod1Mask, xK_s), spawn "spotify"),
+	  ((controlMask .|. mod1Mask, xK_s), spawn "firejail --machine-id spotify"),
 	  ((controlMask .|. mod1Mask, xK_a), spawn "atom"),
 	  ((controlMask .|. mod1Mask, xK_z), spawn "filezilla"),
 	  ((controlMask .|. mod1Mask, xK_w), spawn "libreoffice --writer"),
@@ -108,7 +108,8 @@ main = do
 
 	  --CheatSheet viewer
 	  ((controlMask .|. mod1Mask,xK_v),spawn "feh ~/media/CheatSheets/vim.gif"),
-	  ((controlMask .|. mod1Mask,xK_x),spawn "feh ~/media/CheatSheets/XMonad.png")
+	  ((controlMask .|. mod1Mask,xK_x),spawn "feh ~/media/CheatSheets/XMonad.png"),
+	  ((controlMask .|. mod1Mask,xK_h),spawn "pevince ~/media/CheatSheets/haskellCheatsheet.pdf")
 	  ]
 
 ------------------------------------------------------------
@@ -164,6 +165,7 @@ myManageHook = composeAll
 	className =? "Gimp" --> doFloat,
 	className =? "Chromium" --> doF (W.shift "2"),
 	className =? "Firefox" --> doF (W.shift "2"),
+	className =? "Icecat" --> doF (W.shift "6"),
 	className =? "Evince" --> doF (W.shift "3"),
 	className =? "Xpdf" --> doF (W.shift "3"),
 	className =? "libreoffice-writer" --> doF (W.shift "3"),
@@ -176,15 +178,22 @@ myManageHook = composeAll
 	className =? "eclipse" --> doF (W.shift "4"),
 	className =? "Eclipse" --> doF (W.shift "4"),
 	className =? "/bin/bash" --> doF (W.shift "5"),
-	appName =? "spotify" --> doF (W.shift "2"),
-	appName =? "Spotify" --> doF (W.shift "2"),
-	className =? "spotify" --> doF (W.shift "2"),
-	className =? "Spotify" --> doF (W.shift "2"),
-	className =? "virt-manager" --> doF (W.shift "5:misc0"),
-	className =? "qemu" --> doF (W.shift "5:misc0"),
-	className =? "icecat" --> doF (W.shift "6:messaging")
+	className =? "spotify" --> doF (W.shift "7"),
+	className =? "Spotify" --> doF (W.shift "7"),
+	className =? "spotify" --> doF (W.shift "7"),
+	className =? "Spotify" --> doF (W.shift "7"),
+	appName =? "spotify" --> doF (W.shift "7"),
+	appName =? "Spotify" --> doF (W.shift "7"),
+	appName =? "spotify" --> doF (W.shift "7"),
+	appName =? "Spotify" --> doF (W.shift "7"),
+	className =? "virt-manager" --> doF (W.shift "5"),
+	className =? "qemu" --> doF (W.shift "5")
 	--Doesn't work
 	--className =? "terminator" --> doF (W.shift "1:terminal"),--This works however a if terminator utilises the -l flag it looks borked.
+	--className =? "tor" --> doF (W.shift "2"),
+	--appName =? "tor" --> doF (W.shift "2"),
+	--className =? "tor-browser" --> doF (W.shift "2"),
+	--appName =? "tor-browser" --> doF (W.shift "2"),
 	]
 
 ------------------------------------------------------------

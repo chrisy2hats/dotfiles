@@ -19,7 +19,6 @@ import XMonad.Hooks.SetWMName
 
 myLayout = Full ||| tiled  ||| Grid 
   where
-
 	tiled = Tall nmaster delta ratio
 	nmaster = 1
 	ratio = 1/2
@@ -89,27 +88,24 @@ main = do
 	  ((controlMask .|. mod1Mask, xK_f), spawn "~/downloadedPrograms/firefox/firefox"),
 	  ((controlMask .|. mod1Mask, xK_c), spawn "chromium"),
 	  ((controlMask .|. mod1Mask .|. shiftMask, xK_c), spawn "chromium --incognito"),
-	  ((controlMask .|. mod1Mask, xK_s), spawn "firejail --machine-id spotify"),
-	  ((controlMask .|. mod1Mask, xK_a), spawn "atom"),
+	  ((controlMask .|. mod1Mask, xK_s), spawn "spot"), --Custom commands that launches spotify firejailed and pavucontrol
 	  ((controlMask .|. mod1Mask, xK_z), spawn "filezilla"),
 	  ((controlMask .|. mod1Mask, xK_w), spawn "libreoffice --writer"),
 	  ((controlMask .|. mod1Mask, xK_i), spawn "libreoffice --impress"),
 	  ((controlMask .|. mod1Mask, xK_e), spawn "eclipse"),
-	  ((controlMask .|. mod1Mask, xK_b), spawn "bluej"),
-	  ((controlMask .|. mod1Mask, xK_p), spawn "pyzo"),
 	  ((controlMask .|. mod1Mask .|. shiftMask, xK_p), spawn "pycharm"),
 	  ((controlMask .|. mod1Mask, xK_m), spawn "icecat"),
 	  --Alternate terminal hotkeys
 	  ((controlMask .|. mod1Mask, xK_t), spawn "terminator"),
-	  ((shiftMask .|. mod1Mask, xK_t), spawn "terminator -l ct"),
+	  ((shiftMask .|. mod1Mask, xK_t), spawn "terminator -l IDE"),
 	  ((controlMask .|. mod1Mask, xK_Return), spawn "terminator -l ct"),
 	  --System Control Hotkeys
 	  ((mod1Mask, xK_t), spawn "tp"), --tp is a custom command which disable or enables my trackpad
 
 	  --CheatSheet viewer
-	  ((controlMask .|. mod1Mask,xK_v),spawn "feh ~/media/CheatSheets/vim.gif"),
-	  ((controlMask .|. mod1Mask,xK_x),spawn "feh ~/media/CheatSheets/XMonad.png"),
-	  ((controlMask .|. mod1Mask,xK_h),spawn "pevince ~/media/CheatSheets/haskellCheatsheet.pdf")
+	  ((controlMask .|. mod1Mask,xK_v),spawn "feh ~/media/cheatSheets/vim.gif"),
+	  ((controlMask .|. mod1Mask,xK_x),spawn "feh ~/media/cheatSheets/XMonad.png"),
+	  ((controlMask .|. mod1Mask,xK_h),spawn "evince ~/media/cheatSheets/haskellCheatsheet.pdf")
 	  ]
 
 ------------------------------------------------------------
@@ -130,7 +126,7 @@ main = do
 ------------------------------------------------------------
 
 defaults = defaultConfig{ 
-	 terminal = "terminator -l ct", --Options = uxterm,xterm,tmux,terminator(terminator -l ct)
+	 terminal = "terminator -m -l ct", --Options = uxterm,xterm,tmux,terminator(terminator -l ct)
 	 startupHook = myStartupHook,
   	 normalBorderColor = "#000000", --Default colour = #FF0000 red
 	 borderWidth = 0,
@@ -175,6 +171,8 @@ myManageHook = composeAll
 	className =? "jetbrains-idea-ce" --> doF (W.shift "3"),
 	className =? "pavucontrol" --> doF (W.shift "8"),
 	--WIP
+	--className =? "netbeans" --> doF (W.shift "4"),
+	--className =? "Netbeans" --> doF (W.shift "4"),
 	className =? "eclipse" --> doF (W.shift "4"),
 	className =? "Eclipse" --> doF (W.shift "4"),
 	className =? "/bin/bash" --> doF (W.shift "5"),
@@ -187,13 +185,17 @@ myManageHook = composeAll
 	appName =? "spotify" --> doF (W.shift "7"),
 	appName =? "Spotify" --> doF (W.shift "7"),
 	className =? "virt-manager" --> doF (W.shift "5"),
-	className =? "qemu" --> doF (W.shift "5")
+	className =? "qemu" --> doF (W.shift "5"),
+	className =? "IDE" --> doF (W.shift "4")
 	--Doesn't work
+	--className =? "terminator" --> doF (W.shift "1:terminal"),--This works however a if terminator utilises the -l flag it looks borked.
 	--className =? "terminator" --> doF (W.shift "1:terminal"),--This works however a if terminator utilises the -l flag it looks borked.
 	--className =? "tor" --> doF (W.shift "2"),
 	--appName =? "tor" --> doF (W.shift "2"),
 	--className =? "tor-browser" --> doF (W.shift "2"),
 	--appName =? "tor-browser" --> doF (W.shift "2"),
+
+
 	]
 
 ------------------------------------------------------------

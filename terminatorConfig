@@ -30,10 +30,52 @@
     [[[window0]]]
       parent = ""
       type = Window
+  [[IDE]]
+    [[[child0]]]
+      fullscreen = False
+      last_active_term = 3183932f-8789-4a06-927f-865d1a331bdc
+      last_active_window = True
+      maximised = True
+      order = 0
+      parent = ""
+      position = 0:0
+      size = 1366, 768
+      title = /bin/bash
+      type = Window
+    [[[child1]]]
+      order = 0
+      parent = child0
+      position = 129
+      ratio = 0.16796875
+      type = VPaned
+    [[[child3]]]
+      order = 1
+      parent = child1
+      position = 908
+      ratio = 0.664714494876
+      type = HPaned
+    [[[terminal2]]]
+      order = 0
+      parent = child1
+      profile = default
+      type = Terminal
+      uuid = 3cd87227-4da1-47e1-a0b6-42a331d8265e
+    [[[terminal4]]]
+      order = 0
+      parent = child3
+      profile = default
+      type = Terminal
+      uuid = 3183932f-8789-4a06-927f-865d1a331bdc
+    [[[terminal5]]]
+      order = 1
+      parent = child3
+      profile = default
+      type = Terminal
+      uuid = 03b229e1-7b24-42fe-9ad5-a3444ac9aebe
   [[ct]]
     [[[child0]]]
       fullscreen = False
-      last_active_term = f9d48f27-c1fd-42df-acb9-975d3e0dbc8b
+      last_active_term = 005ed799-dfcc-4639-8a60-d3f02f88ccbb
       last_active_window = True
       maximised = True
       order = 0
@@ -65,25 +107,25 @@
       parent = child2
       profile = default
       type = Terminal
-      uuid = f9d48f27-c1fd-42df-acb9-975d3e0dbc8b
+      uuid = 005ed799-dfcc-4639-8a60-d3f02f88ccbb
     [[[terminal4]]]
       order = 1
       parent = child2
       profile = default
       type = Terminal
-      uuid = 3cd87227-4da1-47e1-a0b6-42a331d8265e
+      uuid = 0e57cf6c-05a8-4ce0-8c66-a8322c2ddccb
     [[[terminal6]]]
       order = 0
       parent = child5
       profile = default
       type = Terminal
-      uuid = 03b229e1-7b24-42fe-9ad5-a3444ac9aebe
+      uuid = c37f4ed8-f65d-45ee-b041-f7b143cd6dea
     [[[terminal7]]]
       order = 1
       parent = child5
       profile = default
       type = Terminal
-      uuid = 3183932f-8789-4a06-927f-865d1a331bdc
+      uuid = f4527fdc-1c21-4cf3-87f2-f5d29aa4d776
   [[ctGrouped]]
     [[[child0]]]
       fullscreen = False
@@ -146,9 +188,11 @@
     copy_on_selection = True
     cursor_color = "#aaaaaa"
     custom_command = configureTerminator
+    font = Ubuntu Mono 13
     icon_bell = False
     scrollbar_position = hidden
     show_titlebar = False
+    use_system_font = False
   [[alsamixer]]
     background_darkness = 0.39
     background_type = transparent

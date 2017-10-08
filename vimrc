@@ -3,13 +3,14 @@ set spelllang=en_gb "Setting my spell check to english. This can be enabled usin
 "Making marks persistant
 set viminfo='100,f1
 
+"colour scheme avaliable at https://github.com/sjl/badwolf
 colo badwolf  "setting colour scheme. Default is "ron" for dark terminals and peachpuff for light terminals
 let g:solarized_termcolors=256
 
 "Setting tab to 4 spaces. This is language aware so in python tab is a tab but
 "in haskell a tab is 4 spaces
 filetype plugin indent on
-set tabstop=4 shiftwidth=4 expandtab 
+"set tabstop=4 shiftwidth=4 expandtab 
 
 
 
@@ -22,6 +23,7 @@ syntax on
 set background=dark
 "Enabling relative line numbers
 set relativenumber
+set number
 "set ls=2 "enables statusline at the bottom
 set modeline
 "%F is filename
@@ -42,6 +44,7 @@ command WQ wq
 command Wq wq
 command W w
 command Q q
+"command Q\! q!
 
 "map <F4> :w
 "map <M-F5> :w

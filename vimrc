@@ -1,5 +1,5 @@
-set spelllang=en_gb "Setting my spell check to english. This can be enabled using :set spell and disabled using :set nospell
-
+set spelllang=en_gb "Setting my spell check to english. This can be enabled using :set spell and disabled using :set nospell 
+ 
 "Making marks persistant
 set viminfo='100,f1
 
@@ -45,6 +45,10 @@ command Wq wq
 command W w
 command Q q
 "command Q\! q!
+command Tab set tabstop=4 shiftwidth=4 expandtab
+command NoTab set noexpandtab
+command Notab set noexpandtab
+
 
 "map <F4> :w
 "map <M-F5> :w

@@ -1,6 +1,6 @@
 ------------------------------------------------------------
 --Location: ~/.xmonad/xmonad.hs
---Written by github.com/chrisfoster4
+--XMonad.StackSet.itten by github.com/chrisfoster4
 ------------------------------------------------------------
 
 --Currently used libraries.
@@ -11,19 +11,9 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Grid
 import XMonad.Util.EZConfig--(additionalKeys) -- Needed for hotkeys.
 import XMonad.Actions.SpawnOn
-import qualified XMonad.StackSet as W
+import qualified XMonad.StackSet 
 import XMonad.Hooks.SetWMName
------------------------------------------------------------
---Settings Screen Layouts
------------------------------------------------------------
 
-myLayout = Full ||| tiled  ||| Grid 
-  where
-	tiled = Tall nmaster delta ratio
-	nmaster = 1
-	ratio = 1/2
-	delta = 5/100
-	
 -----------------------------------------------------------
 --Main function
 -----------------------------------------------------------
@@ -43,16 +33,17 @@ main = do
 
 	 `additionalKeys` 	  
 	[ --System Hotkeys`
-	  ((mod1Mask, xK_g),withFocused $windows.W.sink),--Remapping tile floating window to alt g 
+	  ((mod1Mask, xK_g),withFocused $windows.XMonad.StackSet.sink),--Remapping tile floating window to alt g 
 	  ((mod1Mask, xK_y),sendMessage Shrink),--remapping alt h to alt y
-	  ((mod1Mask ,xK_u),windows W.swapDown),--remapping alt j to alt u
+	  ((mod1Mask ,xK_u),windows XMonad.StackSet.swapDown),--remapping alt j to alt u
 	  ((mod1Mask,xK_o),sendMessage Expand),--remapping alt l to alt o
-	  ((mod1Mask ,xK_i),windows W.focusUp),--remapping alt k to alt 
-	  ((mod1Mask .|. shiftMask ,xK_u),windows W.swapDown), --remapping alt shift j to alt shift u
-	  ((mod1Mask .|. shiftMask ,xK_i),windows W.swapUp), --remapping alt shift k to alt shift i
+	  ((mod1Mask ,xK_i),windows XMonad.StackSet.focusUp),--remapping alt k to alt 
+	  ((mod1Mask .|. shiftMask ,xK_u),windows XMonad.StackSet.swapDown), --remapping alt shift j to alt shift u
+	  ((mod1Mask .|. shiftMask ,xK_i),windows XMonad.StackSet.swapUp), --remapping alt shift k to alt shift i
 	  ((mod1Mask ,0x0060),withFocused hide), --Show desktop 
 	 
 	  --Lock and Screenshot
+	  ((mod4Mask .|. mod1Mask .|. controlMask, xK_p), spawn "sleep 0.1 && scrot -s'%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/media/screenshots/'"), --Takes and saves screenshot
 	  ((mod4Mask .|. controlMask, xK_p), spawn "scrot '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/media/screenshots/'"), --Takes and saves screenshot
 	  ((mod4Mask .|. controlMask .|. shiftMask, xK_p), spawn "scrot -u '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/Pictures/screenshots/'"), --Takes and saves screenshot.Only the currently focused window
 	  ((mod1Mask .|. controlMask, xK_l), spawn "myLockScript"), --Lock screen
@@ -93,12 +84,12 @@ main = do
 	  ((controlMask .|. mod1Mask, xK_w), spawn "libreoffice --writer"),
 	  ((controlMask .|. mod1Mask, xK_i), spawn "libreoffice --impress"),
 	  ((controlMask .|. mod1Mask, xK_e), spawn "eclipse"),
-	  ((controlMask .|. mod1Mask .|. shiftMask, xK_p), spawn "pycharm"),
+	  ((controlMask .|. mod1Mask, xK_n), spawn "netbeans"),
 	  ((controlMask .|. mod1Mask, xK_m), spawn "icecat"),
 	  --Alternate terminal hotkeys
 	  ((controlMask .|. mod1Mask, xK_t), spawn "terminator"),
 	  ((shiftMask .|. mod1Mask, xK_t), spawn "terminator -l IDE"),
-	  ((controlMask .|. mod1Mask, xK_Return), spawn "terminator -l ct"),
+	  ((controlMask .|. mod1Mask, xK_Return), spawn "terminator -l quadTerm"),
 	  --System Control Hotkeys
 	  ((mod1Mask, xK_t), spawn "tp"), --tp is a custom command which disable or enables my trackpad
 
@@ -121,12 +112,25 @@ main = do
 	  --(mod1Mask .|. shiftMask, xK_c) --Unmapping default close window hotkey
 	  ]
 
+-----------------------------------------------------------
+--Settings Screen Layouts
+-----------------------------------------------------------
+
+myLayout = Full ||| tiled  ||| Grid 
+  where
+	tiled = Tall nmaster delta ratio
+	nmaster = 1
+	ratio = 1/2
+	delta = 5/100
+	
+
+
 ------------------------------------------------------------
 --Setting personal defaults
 ------------------------------------------------------------
 
 defaults = defaultConfig{ 
-	 terminal = "terminator -m -l ct", --Options = uxterm,xterm,tmux,terminator(terminator -l ct)
+	 terminal = "terminator -m -l quadTerm", --Options = uxterm,xterm,tmux,terminator(terminator -l quadTerm)
 	 startupHook = myStartupHook,
   	 normalBorderColor = "#000000", --Default colour = #FF0000 red
 	 borderWidth = 0,
@@ -159,43 +163,41 @@ myManageHook = composeAll
 	[--Find the name of the window using xprop -name "expectedName"
 	--Currently working
 	className =? "Gimp" --> doFloat,
-	className =? "Chromium" --> doF (W.shift "2"),
-	className =? "Firefox" --> doF (W.shift "2"),
-	className =? "Icecat" --> doF (W.shift "6"),
-	className =? "Evince" --> doF (W.shift "3"),
-	className =? "Xpdf" --> doF (W.shift "3"),
-	className =? "libreoffice-writer" --> doF (W.shift "3"),
-	className =? "libreoffice-calc" --> doF (W.shift "3"),
-	className =? "libreoffice-startcenter" --> doF (W.shift "3"),
-	className =? "libreoffice-impress" --> doF (W.shift "3"),
-	className =? "jetbrains-idea-ce" --> doF (W.shift "3"),
-	className =? "pavucontrol" --> doF (W.shift "8"),
-	--WIP
-	--className =? "netbeans" --> doF (W.shift "4"),
-	--className =? "Netbeans" --> doF (W.shift "4"),
-	className =? "eclipse" --> doF (W.shift "4"),
-	className =? "Eclipse" --> doF (W.shift "4"),
-	className =? "/bin/bash" --> doF (W.shift "5"),
-	className =? "spotify" --> doF (W.shift "7"),
-	className =? "Spotify" --> doF (W.shift "7"),
-	className =? "spotify" --> doF (W.shift "7"),
-	className =? "Spotify" --> doF (W.shift "7"),
-	appName =? "spotify" --> doF (W.shift "7"),
-	appName =? "Spotify" --> doF (W.shift "7"),
-	appName =? "spotify" --> doF (W.shift "7"),
-	appName =? "Spotify" --> doF (W.shift "7"),
-	className =? "virt-manager" --> doF (W.shift "5"),
-	className =? "qemu" --> doF (W.shift "5"),
-	className =? "IDE" --> doF (W.shift "4")
+	className =? "Chromium" --> doF (XMonad.StackSet.shift "2"),
+	className =? "Firefox" --> doF (XMonad.StackSet.shift "2"),
+	className =? "Icecat" --> doF (XMonad.StackSet.shift "6"),
+	className =? "Evince" --> doF (XMonad.StackSet.shift "3"),
+	className =? "Xpdf" --> doF (XMonad.StackSet.shift "3"),
+	className =? "libreoffice-writer" --> doF (XMonad.StackSet.shift "3"),
+	className =? "libreoffice-calc" --> doF (XMonad.StackSet.shift "3"),
+	className =? "libreoffice-startcenter" --> doF (XMonad.StackSet.shift "3"),
+	className =? "libreoffice-impress" --> doF (XMonad.StackSet.shift "3"),
+	className =? "jetbrains-idea-ce" --> doF (XMonad.StackSet.shift "3"),
+	className =? "pavucontrol" --> doF (XMonad.StackSet.shift "8"),
+	--XMonad.StackSet.rk In Progress
+	--className =? "netbeans" --> doF (XMonad.StackSet.shift "4"),
+	--className =? "Netbeans" --> doF (XMonad.StackSet.shift "4"),
+	className =? "eclipse" --> doF (XMonad.StackSet.shift "4"),
+	className =? "Eclipse" --> doF (XMonad.StackSet.shift "4"),
+	className =? "/bin/bash" --> doF (XMonad.StackSet.shift "5"),
+	className =? "spotify" --> doF (XMonad.StackSet.shift "7"),
+	className =? "Spotify" --> doF (XMonad.StackSet.shift "7"),
+	className =? "spotify" --> doF (XMonad.StackSet.shift "7"),
+	className =? "Spotify" --> doF (XMonad.StackSet.shift "7"),
+	appName =? "spotify" --> doF (XMonad.StackSet.shift "7"),
+	appName =? "Spotify" --> doF (XMonad.StackSet.shift "7"),
+	appName =? "spotify" --> doF (XMonad.StackSet.shift "7"),
+	appName =? "Spotify" --> doF (XMonad.StackSet.shift "7"),
+	className =? "virt-manager" --> doF (XMonad.StackSet.shift "5"),
+	className =? "qemu" --> doF (XMonad.StackSet.shift "5"),
+	className =? "IDE" --> doF (XMonad.StackSet.shift "4")
 	--Doesn't work
-	--className =? "terminator" --> doF (W.shift "1:terminal"),--This works however a if terminator utilises the -l flag it looks borked.
-	--className =? "terminator" --> doF (W.shift "1:terminal"),--This works however a if terminator utilises the -l flag it looks borked.
-	--className =? "tor" --> doF (W.shift "2"),
-	--appName =? "tor" --> doF (W.shift "2"),
-	--className =? "tor-browser" --> doF (W.shift "2"),
-	--appName =? "tor-browser" --> doF (W.shift "2"),
-
-
+	--className =? "terminator" --> doF (XMonad.StackSet.shift "1:terminal"),--This works however a if terminator utilises the -l flag it looks borked.
+	--className =? "terminator" --> doF (XMonad.StackSet.shift "1:terminal"),--This works however a if terminator utilises the -l flag it looks borked.
+	--className =? "tor" --> doF (XMonad.StackSet.shift "2"),
+	--appName =? "tor" --> doF (XMonad.StackSet.shift "2"),
+	--className =? "tor-browser" --> doF (XMonad.StackSet.shift "2"),
+	--appName =? "tor-browser" --> doF (XMonad.StackSet.shift "2"),
 	]
 
 ------------------------------------------------------------

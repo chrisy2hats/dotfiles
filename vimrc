@@ -63,3 +63,8 @@ command Notab set noexpandtab
 "set shell=/bin/bash\ --rcfile\ ~/.bashrc\ -i
 "set shell=/bin/bash\ -i
 "set shell=/bin/bash
+:nmap <F1> <nop>
+
+
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber 

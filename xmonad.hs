@@ -1,6 +1,5 @@
 ------------------------------------------------------------
 --Location: ~/.xmonad/xmonad.hs
---XMonad.StackSet.itten by github.com/chrisfoster4
 ------------------------------------------------------------
 
 --Currently used libraries.
@@ -54,10 +53,11 @@ main = do
  	  ((mod4Mask, xK_v),spawn "xdotool click 3"),	--right click
 	  --Remapping close from alt shift c to alt backspace and alt c
 	  ((mod1Mask, xK_BackSpace),kill),
+	  ((mod1Mask .|. shiftMask , 0x0060),kill), --Alt + shift + grave
 	  --((mod1Mask, xK_c),kill),
 
 	  --Volume Control Hotkeys
-	  ((mod1Mask, xK_m),spawn "amixer -q set Master toggle && amixer -c 0 sset Speaker toggle && amixer -c 1 sset Speaker toggle"),
+	  --((mod1Mask, xK_m),spawn "amixer -q set Master toggle && amixer -c 0 sset Speaker toggle && amixer -c 1 sset Speaker toggle"),
 	  ((mod4Mask .|. mod1Mask .|. controlMask, xK_minus),spawn "amixer sset Master 5%- && amixer -c 1 sset Speaker 5%-"),
 	  ((mod4Mask .|. mod1Mask .|. controlMask, xK_equal),spawn "amixer sset Master 5%+ && amixer -c 1 sset Speaker 5%+"),
 	  ((mod4Mask .|. controlMask, xK_minus),spawn "amixer sset Master 10%- && amixer -c 1 sset Speaker 10%-"),
@@ -81,10 +81,9 @@ main = do
 	  ((controlMask .|. mod1Mask .|. shiftMask, xK_c), spawn "chromium --incognito"),
 	  ((controlMask .|. mod1Mask, xK_s), spawn "spot"), --Custom commands that launches spotify firejailed and pavucontrol
 	  ((controlMask .|. mod1Mask, xK_z), spawn "filezilla"),
-	  ((controlMask .|. mod1Mask, xK_w), spawn "libreoffice --writer"),
-	  ((controlMask .|. mod1Mask, xK_i), spawn "libreoffice --impress"),
+	  ((controlMask .|. mod1Mask, xK_a), spawn "atom"),
 	  ((controlMask .|. mod1Mask, xK_e), spawn "eclipse"),
-	  ((controlMask .|. mod1Mask, xK_n), spawn "netbeans"),
+	  ((controlMask .|. mod1Mask, xK_n), spawn "netbeansLauncher"),
 	  ((controlMask .|. mod1Mask, xK_m), spawn "icecat"),
 	  --Alternate terminal hotkeys
 	  ((controlMask .|. mod1Mask, xK_t), spawn "terminator"),
@@ -108,15 +107,15 @@ main = do
 	  (mod1Mask, xK_h),
 	  (mod1Mask, xK_j),
 	  (mod1Mask, xK_k),
-	  (mod1Mask, xK_l)
-	  --(mod1Mask .|. shiftMask, xK_c) --Unmapping default close window hotkey
+	  (mod1Mask, xK_l),
+	  (mod1Mask .|. shiftMask, xK_c) --Unmapping default close window hotkey
 	  ]
 
 -----------------------------------------------------------
 --Settings Screen Layouts
 -----------------------------------------------------------
 
-myLayout = Full ||| tiled  ||| Grid 
+myLayout = Full ||| tiled --  ||| Grid  --Grid is a horizontally split screen layout
   where
 	tiled = Tall nmaster delta ratio
 	nmaster = 1
@@ -130,14 +129,15 @@ myLayout = Full ||| tiled  ||| Grid
 ------------------------------------------------------------
 
 defaults = defaultConfig{ 
-	 terminal = "terminator -m -l quadTerm", --Options = uxterm,xterm,tmux,terminator(terminator -l quadTerm)
+	 terminal = "terminator -m -l quadTerm", 
+         --Options = uxterm,xterm,tmux,terminator(terminator -l quadTerm)
 	 startupHook = myStartupHook,
   	 normalBorderColor = "#000000", --Default colour = #FF0000 red
 	 borderWidth = 0,
 	 focusFollowsMouse = False,
 	 manageHook = myManageHook,	
-         modMask = mod1Mask  --mod1Mask = left alt.mod3Mask = right alt. mod4Mask = super	
-
+	 --mod1Mask = left alt.mod3Mask = right alt. mod4Mask = super	
+         modMask = mod1Mask  
   }
 
 
@@ -151,8 +151,7 @@ defaults = defaultConfig{
 --Programs are moved to proper workspaces by the myManageHook below
 
 myStartupHook = do 	--System setup commands
-	spawnOn "1" "setxkbmap -option 'ctrl:nocaps'" --Disabling caps lock
-	spawnOn "1" "xmodmap -e 'keycode 66=Escape'" -- Mapping Caps Lock to ESC
+	spawnOn "1" "ck" --Disables caps lock and maps caps lock to Esacpe
 	spawnOn "1" "fb" --Custom command to apply my desktop background
 
 ------------------------------------------------------------
@@ -174,9 +173,15 @@ myManageHook = composeAll
 	className =? "libreoffice-impress" --> doF (XMonad.StackSet.shift "3"),
 	className =? "jetbrains-idea-ce" --> doF (XMonad.StackSet.shift "3"),
 	className =? "pavucontrol" --> doF (XMonad.StackSet.shift "8"),
-	--XMonad.StackSet.rk In Progress
+	className =? "Atom" --> doF (XMonad.StackSet.shift "4"),
+	--Work In Progress
 	--className =? "netbeans" --> doF (XMonad.StackSet.shift "4"),
 	--className =? "Netbeans" --> doF (XMonad.StackSet.shift "4"),
+	appName =? "libreoffice" --> doF (XMonad.StackSet.shift "3"),
+	className =? "libreoffice-impress" --> doF (XMonad.StackSet.shift "3"),
+	className =? "Libreoffice-impress" --> doF (XMonad.StackSet.shift "3"),
+	appName =? "libreoffice-impress" --> doF (XMonad.StackSet.shift "3"),
+	appName =? "Libreoffice-impress" --> doF (XMonad.StackSet.shift "3"),
 	className =? "eclipse" --> doF (XMonad.StackSet.shift "4"),
 	className =? "Eclipse" --> doF (XMonad.StackSet.shift "4"),
 	className =? "/bin/bash" --> doF (XMonad.StackSet.shift "5"),

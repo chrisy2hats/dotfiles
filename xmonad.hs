@@ -153,6 +153,7 @@ defaults = defaultConfig{
 myStartupHook = do 	--System setup commands
 	spawnOn "1" "ck" --Disables caps lock and maps caps lock to Esacpe
 	spawnOn "1" "fb" --Custom command to apply my desktop background
+	spawnOn "1" "~/downloadedPrograms/yeahconsole/yeahconsole"
 
 ------------------------------------------------------------
 --Making programs spawn in certain workspaces
@@ -162,6 +163,8 @@ myManageHook = composeAll
 	[--Find the name of the window using xprop -name "expectedName"
 	--Currently working
 	className =? "Gimp" --> doFloat,
+	className =? "xterm" --> doFloat,
+	stringProperty "WM_WINDOW_ROLE" =? "tdropwindow" --> doFloat,
 	className =? "Chromium" --> doF (XMonad.StackSet.shift "2"),
 	className =? "Firefox" --> doF (XMonad.StackSet.shift "2"),
 	className =? "Icecat" --> doF (XMonad.StackSet.shift "6"),

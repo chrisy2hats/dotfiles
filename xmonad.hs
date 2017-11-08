@@ -39,7 +39,7 @@ main = do
 	  ((mod1Mask ,xK_i),windows XMonad.StackSet.focusUp),--remapping alt k to alt 
 	  ((mod1Mask .|. shiftMask ,xK_u),windows XMonad.StackSet.swapDown), --remapping alt shift j to alt shift u
 	  ((mod1Mask .|. shiftMask ,xK_i),windows XMonad.StackSet.swapUp), --remapping alt shift k to alt shift i
-	  ((mod1Mask ,0x0060),withFocused hide), --Show desktop 
+	  --((mod1Mask ,0x0060),withFocused hide), --Show desktop 
 	 
 	  --Lock and Screenshot
 	  ((mod4Mask .|. mod1Mask .|. controlMask, xK_p), spawn "sleep 0.1 && scrot -s'%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/media/screenshots/'"), --Takes and saves screenshot
@@ -53,7 +53,8 @@ main = do
  	  ((mod4Mask, xK_v),spawn "xdotool click 3"),	--right click
 	  --Remapping close from alt shift c to alt backspace and alt c
 	  ((mod1Mask, xK_BackSpace),kill),
-	  ((mod1Mask .|. shiftMask , 0x0060),kill), --Alt + shift + grave
+	  ((mod1Mask, 0x0060),kill),
+	  --((mod1Mask .|. shiftMask , 0x0060),kill), --Alt + shift + grave
 	  --((mod1Mask, xK_c),kill),
 
 	  --Volume Control Hotkeys
@@ -68,7 +69,6 @@ main = do
 	  ((controlMask .|. shiftMask,xK_equal),spawn "brightnessChanger -i"),
 	  ((mod1Mask .|. shiftMask, xK_l), spawn "toggleScreen"),--Toggle between 0% and 100% brightness.Useful to type a password in plaintext in a public place
 	  --Quick type hotkeys
-	  ((mod4Mask,xK_w),spawn "quickType while"),
 	  ((mod4Mask .|. shiftMask,xK_p),spawn "quickType printStringHaskell"),
 	  ((mod4Mask,xK_o),spawn "quickType javaSystemOut"),--broken
 	  ((mod4Mask, xK_n),spawn "quickType githubName"), 
@@ -77,14 +77,16 @@ main = do
 	  ((mod1Mask .|. shiftMask, xK_s),spawn "vimSaveAndGoToInsertMode"),
 	  --Program Launcher Hotkeys
 	  ((controlMask .|. mod1Mask, xK_f), spawn "~/downloadedPrograms/firefox/firefox"),
+	  ((controlMask .|. mod1Mask, xK_w), spawn "~/downloadedPrograms/waterfox/waterfox"),
 	  ((controlMask .|. mod1Mask, xK_c), spawn "chromium"),
 	  ((controlMask .|. mod1Mask .|. shiftMask, xK_c), spawn "chromium --incognito"),
 	  ((controlMask .|. mod1Mask, xK_s), spawn "spot"), --Custom commands that launches spotify firejailed and pavucontrol
-	  ((controlMask .|. mod1Mask, xK_z), spawn "filezilla"),
-	  ((controlMask .|. mod1Mask, xK_a), spawn "atom"),
+	  --((controlMask .|. mod1Mask, xK_z), spawn "filezilla"),
+	  --((controlMask .|. mod1Mask, xK_a), spawn "atom"),
 	  ((controlMask .|. mod1Mask, xK_e), spawn "eclipse"),
 	  ((controlMask .|. mod1Mask, xK_n), spawn "netbeansLauncher"),
-	  ((controlMask .|. mod1Mask, xK_m), spawn "icecat"),
+	  --((controlMask .|. mod1Mask, xK_m), spawn "icecat"),
+	  ((controlMask .|. mod1Mask, xK_m), spawn "waterfox"),
 	  --Alternate terminal hotkeys
 	  ((controlMask .|. mod1Mask, xK_t), spawn "terminator"),
 	  ((shiftMask .|. mod1Mask, xK_t), spawn "terminator -l IDE"),
@@ -92,6 +94,13 @@ main = do
 	  --System Control Hotkeys
 	  ((mod1Mask, xK_t), spawn "tp"), --tp is a custom command which disable or enables my trackpad
 
+	  --Spotify Control keys
+	  ----Play/pause(alt + #)
+	  ((mod1Mask, xK_apostrophe),spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"), 	
+	  --Next Track(alt + ])
+	  ((mod1Mask ,xK_bracketright),spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"),
+	  --Previous Track(alt + [)
+	  ((mod1Mask, xK_bracketleft),spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"),
 	  --CheatSheet viewer
 	  ((controlMask .|. mod1Mask,xK_v),spawn "feh ~/media/cheatSheets/vim.gif"),
 	  ((controlMask .|. mod1Mask,xK_x),spawn "feh ~/media/cheatSheets/XMonad.png"),
@@ -108,6 +117,7 @@ main = do
 	  (mod1Mask, xK_j),
 	  (mod1Mask, xK_k),
 	  (mod1Mask, xK_l),
+	  (mod1Mask .|. shiftMask, xK_slash), --Disabling hotkey help screen
 	  (mod1Mask .|. shiftMask, xK_c) --Unmapping default close window hotkey
 	  ]
 
@@ -153,7 +163,7 @@ defaults = defaultConfig{
 myStartupHook = do 	--System setup commands
 	spawnOn "1" "ck" --Disables caps lock and maps caps lock to Esacpe
 	spawnOn "1" "fb" --Custom command to apply my desktop background
-	spawnOn "1" "~/downloadedPrograms/yeahconsole/yeahconsole"
+	spawnOn "1" "yeahConsole"
 
 ------------------------------------------------------------
 --Making programs spawn in certain workspaces
@@ -162,10 +172,9 @@ myStartupHook = do 	--System setup commands
 myManageHook = composeAll
 	[--Find the name of the window using xprop -name "expectedName"
 	--Currently working
-	className =? "Gimp" --> doFloat,
-	className =? "xterm" --> doFloat,
-	stringProperty "WM_WINDOW_ROLE" =? "tdropwindow" --> doFloat,
+	--Working shifts
 	className =? "Chromium" --> doF (XMonad.StackSet.shift "2"),
+	className =? "Waterfox" --> doF (XMonad.StackSet.shift "2"),
 	className =? "Firefox" --> doF (XMonad.StackSet.shift "2"),
 	className =? "Icecat" --> doF (XMonad.StackSet.shift "6"),
 	className =? "Evince" --> doF (XMonad.StackSet.shift "3"),
@@ -177,6 +186,12 @@ myManageHook = composeAll
 	className =? "jetbrains-idea-ce" --> doF (XMonad.StackSet.shift "3"),
 	className =? "pavucontrol" --> doF (XMonad.StackSet.shift "8"),
 	className =? "Atom" --> doF (XMonad.StackSet.shift "4"),
+	--Working floats
+	className =? "Gimp" --> doFloat,
+	className =? "netbeans" --> doFloat, --One of these 4 lines appears to make netbeans display properly
+	className =? "Netbeans" --> doFloat,
+	appName =? "netbeans" --> doFloat,
+	appName =? "Netbeans" --> doFloat,
 	--Work In Progress
 	--className =? "netbeans" --> doF (XMonad.StackSet.shift "4"),
 	--className =? "Netbeans" --> doF (XMonad.StackSet.shift "4"),

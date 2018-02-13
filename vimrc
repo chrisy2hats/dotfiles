@@ -12,6 +12,9 @@ let g:solarized_termcolors=256
 filetype plugin indent on
 "set tabstop=4 shiftwidth=4 expandtab 
 
+"Setting yanked text to go to system clipboard - This requires vim and vim-gtk
+"packages on debian
+set clipboard=unnamedplus
 
 
 set encoding=utf-8 nobomb
@@ -39,6 +42,18 @@ set modeline
 vnoremap <silent> # :s/^#//<cr>:noh<cr>
 vnoremap <silent> -# :s/^#//<cr>:noh<cr>
 
+" Disable Arrow keys in Escape mode
+"map <up> <nop>
+"map <down> <nop>
+"map <left> <nop>
+"map <right> <nop>
+
+" Disable Arrow keys in Insert mode
+"imap <up> <nop>
+"imap <down> <nop>
+"imap <left> <nop>
+"imap <right> <nop>
+
 "Command Aliases
 command WQ wq
 command Wq wq
@@ -48,6 +63,7 @@ command Q q
 command Tab set tabstop=4 shiftwidth=4 expandtab
 command NoTab set noexpandtab
 command Notab set noexpandtab
+command Clip :w !xclip -sel clip
 
 
 "map <F4> :w
@@ -66,5 +82,6 @@ command Notab set noexpandtab
 :nmap <F1> <nop>
 
 
-autocmd InsertEnter * :set norelativenumber
-autocmd InsertLeave * :set relativenumber 
+autocmd InsertEnter * :set norelativenumber "Making line numbers absolute while in insert mode
+autocmd InsertLeave * :set relativenumber  "Making line numbers relative while in normal mode
+

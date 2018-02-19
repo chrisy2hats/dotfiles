@@ -13,8 +13,6 @@ import XMonad.Actions.SpawnOn
 import qualified XMonad.StackSet 
 import XMonad.Hooks.SetWMName
 
---Temp libs
-import XMonad.Layout.NoBorders
 -----------------------------------------------------------
 --Main function
 -----------------------------------------------------------
@@ -73,7 +71,7 @@ main = do
 	  ((mod1Mask, xK_s),spawn "vimSave"),
 	  ((mod1Mask .|. shiftMask, xK_s),spawn "vimSaveAndGoToInsertMode"),
 	  --Program Launcher Hotkeys
-	  ((controlMask .|. mod1Mask, xK_f), spawn "~/downloadedPrograms/firefox/firefox"),
+	  ((controlMask .|. mod1Mask, xK_f), spawn "~/downloadedprograms/firefox/firefox"),
 	  ((controlMask .|. mod1Mask, xK_w), spawn "~/downloadedPrograms/waterfox/waterfox"),
 	  ((controlMask .|. mod1Mask, xK_c), spawn "chromium"),
 	  ((controlMask .|. shiftMask, xK_n), spawn "chromium --incognito"),--Allows new incognito tab to be launched without being focused on chromium
@@ -120,7 +118,7 @@ main = do
 --Settings Screen Layouts
 -----------------------------------------------------------
 
-myLayout = noBorders Full ||| tiled --  ||| Grid  --Grid is a horizontally split screen layout
+myLayout = Full ||| tiled --  ||| Grid  --Grid is a horizontally split screen layout
   where
 	tiled = Tall nmaster delta ratio
 	nmaster = 1
@@ -138,7 +136,7 @@ defaults = defaultConfig {
          --Options = uxterm,xterm,tmux,terminator(terminator -l quadTerm)
 	 startupHook = myStartupHook,
   	 normalBorderColor = "#000000", --Default colour = #FF0000 red
-	 borderWidth = 2,
+	 borderWidth = 0,
 	 focusFollowsMouse = False,
 	 manageHook = myManageHook,	
 	 --mod1Mask = left alt.mod3Mask = right alt. mod4Mask = super	
@@ -160,6 +158,9 @@ myStartupHook = do 	--System setup commands
 	spawnOn "1" "ck" --Disables caps lock and maps caps lock to Esacpe
 	spawnOn "1" "fb" --Custom command to apply my desktop background
 	spawnOn "1" "yeahconsole"
+
+	spawnOn "1" "usbDeviceListener"
+	spawnOn "1" "/usr/lib/notification-daemon/notification-daemon"
 
 ------------------------------------------------------------
 --Making programs spawn in certain workspaces

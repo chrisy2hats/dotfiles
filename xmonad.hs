@@ -1,4 +1,4 @@
-------------------------------------------------------------
+-----------------------------------------------------------
 --Location: ~/.xmonad/xmonad.hs
 ------------------------------------------------------------
 
@@ -11,9 +11,6 @@ import XMonad.Actions.SpawnOn
 import qualified XMonad.StackSet 
 import XMonad.Hooks.SetWMName
 
---Currently unused libraries
---import XMonad.Layout.Grid
-
 -----------------------------------------------------------
 --Main function
 -----------------------------------------------------------
@@ -24,16 +21,16 @@ main = do
 	 layoutHook = lessBorders OnlyFloat $ avoidStruts $ myLayout
         }
 
+
 -----------------------------------------------------------
 --Additional Hotkeys
 -----------------------------------------------------------
-
 --Find keys string equals in /usr/include/X11/XF86keysym.h or in /usr/include/X11/keysymdef.h
---0x0060 = grave accent
+--0x0060 = grave accent(Key left of "1")
 
 	 `additionalKeys` 	  
 	[ --System Hotkeys`
-	  ((mod1Mask, xK_g),withFocused $windows.XMonad.StackSet.sink),      --Remapping tile floating window to Alt g 
+	  ((mod1Mask, xK_g),withFocused $ windows.XMonad.StackSet.sink),      --Remapping tile floating window to Alt g 
 	  ((mod1Mask, xK_y),sendMessage Shrink),                             --Remapping Alt h to Alt y
 	  ((mod1Mask ,xK_u),windows XMonad.StackSet.swapDown),               --Remapping Alt j to Alt u
 	  ((mod1Mask,xK_o),sendMessage Expand),                              --Remapping Alt l to Alt o
@@ -42,13 +39,10 @@ main = do
 	  ((mod1Mask .|. shiftMask ,xK_i),windows XMonad.StackSet.swapUp),   --Remapping Alt shift k to Alt shift i
 	 
 	  --Lock and Screenshot hotkeys
-	  ((mod4Mask .|. mod1Mask .|. controlMask, xK_p), spawn "sleep 0.1 && scrot -s'%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/media/screenshots/'"), --Takes and saves screenshot
-	  ((mod4Mask .|. controlMask, xK_p), spawn "scrot '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/media/screenshots/'"), --Takes and saves screenshot
-	  ((mod4Mask .|. controlMask .|. shiftMask, xK_p), spawn "scrot -u '%Y-%m-%d:%H:%M:%S.png' -e 'mv $f /home/cflaptop/Pictures/screenshots/'"), --Takes and saves screenshot.Only the currently focused window
+	  ((mod1Mask,xK_Print), spawn "sleep 0.1 && scrot -s '/tmp/screenshot.png' && xclip -selection clipboard -t image/png -i /tmp/screenshot.png"), --Alt+printscreen to take an area
+	  ((0,xK_Print), spawn "sleep 0.1 && scrot '/tmp/screenshot.png' && xclip -selection clipboard -t image/png -i /tmp/screenshot.png"), --Printscreen to take screenshot of all monitors
 	  --Hotkeys for mouse actions
- 	  ((mod4Mask, xK_x),spawn "xdotool click 1"),	--Left click
  	  ((mod4Mask, xK_c),spawn "xdotool click 2"),	--Middle click
- 	  ((mod4Mask, xK_v),spawn "xdotool click 3"),	--Right click
 	  ((mod1Mask, 0x0060),kill),
 
 	  --Volume Control Hotkeys
@@ -58,7 +52,7 @@ main = do
 	  --Brightness Control Keys
 	  ((controlMask .|. shiftMask, xK_minus),spawn "brightnessChanger -d"),
 	  ((controlMask .|. shiftMask,xK_equal),spawn "brightnessChanger -i"),
-	  ((mod1Mask .|. shiftMask, xK_l), spawn "toggleScreen"),--Toggle between 0% and 100% brightness.Useful to type a password in plaintext in a public place
+	  ((mod1Mask .|. shiftMask, xK_l), spawn "toggleScreen"),--Toggle between 0% and 100% brightness
 	  --Quick type hotkeys
 	  ((mod4Mask,xK_o),spawn "quickType javaSystemOut"),
 	  ((mod4Mask,xK_t),spawn "quickType twitch"),
@@ -67,15 +61,10 @@ main = do
 	  ((mod1Mask .|. shiftMask, xK_s),spawn "vimSaveAndGoToInsertMode"),
 	  --Program Launcher Hotkeys
 	  ((controlMask .|. mod1Mask, xK_f), spawn "firefox"),
-	  ((controlMask .|. mod1Mask, xK_w), spawn "~/downloadedPrograms/waterfox/waterfox"),
+	  ((controlMask .|. mod1Mask, xK_w), spawn "waterfox"),
 	  ((controlMask .|. mod1Mask, xK_c), spawn "chromium"),
 	  ((controlMask .|. shiftMask, xK_n), spawn "chromium --incognito"),--Allows new incognito tab to be launched without being focused on chromium
 	  ((controlMask .|. mod1Mask, xK_s), spawn "spot"), --Custom commands that launches spotify firejailed and pavucontrol
-	  ((controlMask .|. mod1Mask, xK_n), spawn "netbeansLauncher"),
-	  --Alternate terminal hotkeys
-	  ((controlMask .|. mod1Mask, xK_t), spawn "terminator"),
-	  ((shiftMask .|. mod1Mask, xK_t), spawn "terminator -l IDE"),
-	  ((controlMask .|. mod1Mask, xK_Return), spawn "terminator -l quadTerm"),
 	  --System Control Hotkeys
 	  ((mod1Mask, xK_t), spawn "tp"), --tp is a script to disable or enable my trackpad
 
@@ -85,11 +74,7 @@ main = do
 	  --Next Track
 	  ((mod1Mask ,xK_bracketright),spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"),
 	  --Previous Track
-	  ((mod1Mask, xK_bracketleft),spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"),
-	  --CheatSheet viewer
-	  ((controlMask .|. mod1Mask,xK_v),spawn "feh ~/media/cheatSheets/vim.gif"),
-	  ((controlMask .|. mod1Mask,xK_x),spawn "feh ~/media/cheatSheets/XMonad.png"),
-	  ((controlMask .|. mod1Mask,xK_h),spawn "evince ~/media/cheatSheets/haskellCheatsheet.pdf")
+	  ((mod1Mask, xK_bracketleft),spawn "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous")
 	  ]
 
 ------------------------------------------------------------
@@ -106,6 +91,19 @@ main = do
 	  (mod1Mask .|. shiftMask, xK_c) --Unmapping default close window hotkey
 	  ]
 
+----------------------------------------------------------------
+--Setting defaults
+------------------------------------------------------------
+
+defaults = defaultConfig { 
+	 terminal = "terminator",
+	 startupHook = myStartupHook,
+	 borderWidth = 0,
+	 focusFollowsMouse = False,
+	 manageHook = myManageHook,	
+     modMask = mod1Mask  --mod1Mask = Left Alt mod3Mask = Right Alt. mod4Mask = Super/Windows key
+  }
+
 -----------------------------------------------------------
 --Settings Screen Layouts
 -----------------------------------------------------------
@@ -118,19 +116,6 @@ myLayout = Full ||| tiled --  ||| Grid  --Grid is a horizontally split screen la
 	delta = 5/100
 
 ------------------------------------------------------------
---Setting defaults
-------------------------------------------------------------
-
-defaults = defaultConfig { 
-	 terminal = "terminator -m -l quadTerm", 
-	 startupHook = myStartupHook,
-	 borderWidth = 0,
-	 focusFollowsMouse = False,
-	 manageHook = myManageHook,	
-         modMask = mod1Mask  --mod1Mask = Left Alt mod3Mask = Right Alt. mod4Mask = Super/Windows key
-  }
-
-------------------------------------------------------------
 --Commands run at startup
 ------------------------------------------------------------
 
@@ -138,7 +123,7 @@ defaults = defaultConfig {
 --Programs are moved to proper workspaces by the myManageHook below
 
 myStartupHook = do 	
-	spawnOn "1" "xset r rate 300 50" --Setting how fast presses are repeated when a key is held down.
+	spawnOn "1" "xset r rate 200 50" --Setting how fast presses are repeated when a key is held down.
 
 	spawnOn "1" "ck" --Disables Caps Lock and maps Caps Lock to Esacpe
 
@@ -146,9 +131,19 @@ myStartupHook = do
 
 	spawnOn "1" "yeahconsole"
 
+	spawnOn "1" "bluetooth off" --Command given by tlp.deb
+
+	spawnOn "1" "comptonStart"
+
+	spawnOn "1" "disableScreenSleep" 
+
+	spawnOn "1" "monitorAutoConnector" 
+
 	spawnOn "1" "usbDeviceListener"
 
 	spawnOn "1" "/usr/lib/notification-daemon/notification-daemon"
+
+
 
 ------------------------------------------------------------
 --Making programs spawn in certain workspaces
@@ -160,23 +155,24 @@ myManageHook = composeAll
 	className =? "Chromium"                --> doF (XMonad.StackSet.shift "2"),
 	className =? "Firefox"                 --> doF (XMonad.StackSet.shift "2"),
 	className =? "Evince"                  --> doF (XMonad.StackSet.shift "3"),
-	className =? "Xpdf"                    --> doF (XMonad.StackSet.shift "3"),
 	className =? "libreoffice-writer"      --> doF (XMonad.StackSet.shift "3"),
 	className =? "libreoffice-calc"        --> doF (XMonad.StackSet.shift "3"),
 	className =? "libreoffice-startcenter" --> doF (XMonad.StackSet.shift "3"),
 	className =? "libreoffice-impress"     --> doF (XMonad.StackSet.shift "3"),
 	className =? "jetbrains-idea-ce"       --> doF (XMonad.StackSet.shift "4"),
-	className =? "Eclipse"                 --> doF (XMonad.StackSet.shift "4"),
+	className =? "Eclipse "                --> doF (XMonad.StackSet.shift "4"),
 	className =? "Atom"                    --> doF (XMonad.StackSet.shift "4"),
-	className =? "Icecat"                  --> doF (XMonad.StackSet.shift "6"),
 	className =? "Waterfox"                --> doF (XMonad.StackSet.shift "6"),
 	--Working floats
 	className =? "Gimp"                    --> doFloat,
 	className =? "netbeans"                --> doFloat, --One of these 4 lines appears to make netbeans display properly
-	className =? "Netbeans"                --> doFloat,
-	appName   =? "netbeans"                --> doFloat,
-	appName   =? "Netbeans"                --> doFloat,
+	--className =? "Netbeans IDE 8.2"        --> doFloat,
+	className =? "Netbeans IDE 8.2"        --> doF (XMonad.StackSet.shift "4"),
+	appName   =? "Netbeans IDE 8.2"        --> doF (XMonad.StackSet.shift "4"),
 	--Work In Progress
+    className =? "Shutter"                 --> doF (XMonad.StackSet.shift "8"),
+    appName   =? "Shutter"                 --> doF (XMonad.StackSet.shift "8"),
+    appName   =? "Session - Shutter"       --> doF (XMonad.StackSet.shift "8"),
 	appName   =? "libreoffice"             --> doF (XMonad.StackSet.shift "3"),
 	className =? "LibreOffice Impress"     --> doF (XMonad.StackSet.shift "3"),
 	className =? "Volume Control"          --> doF (XMonad.StackSet.shift "7") --pavucontrol

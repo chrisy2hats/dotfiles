@@ -15,6 +15,13 @@ import XMonad.Hooks.SetWMName
 --Main function
 -----------------------------------------------------------
 
+--Xorg keycodes according to /usr/include/X11/XF86keysym.h
+brightnessDown   = 0x1008FF03 
+brightnessUp     = 0x1008FF02
+audioLowerVolume = 0x1008ff11
+audioRaiseVolume = 0x1008ff13
+audioMute	     = 0x1008ff12
+  
 main = do
     xmonad $ defaults
         {
@@ -37,26 +44,35 @@ main = do
 	  ((mod1Mask ,xK_i),windows XMonad.StackSet.focusUp),                --Remapping Alt k to Alt 
 	  ((mod1Mask .|. shiftMask ,xK_u),windows XMonad.StackSet.swapDown), --Remapping Alt shift j to Alt shift u
 	  ((mod1Mask .|. shiftMask ,xK_i),windows XMonad.StackSet.swapUp),   --Remapping Alt shift k to Alt shift i
+	  ((controlMask .|. mod1Mask ,xK_l),spawn "xtrlock"),  
 	 
 	  --Lock and Screenshot hotkeys
-	  ((mod1Mask,xK_Print), spawn "sleep 0.1 && scrot -s '/tmp/screenshot.png' && xclip -selection clipboard -t image/png -i /tmp/screenshot.png"), --Alt+printscreen to take an area
-	  ((0,xK_Print), spawn "sleep 0.1 && scrot '/tmp/screenshot.png' && xclip -selection clipboard -t image/png -i /tmp/screenshot.png"), --Printscreen to take screenshot of all monitors
-	  --Hotkeys for mouse actions
+	  ((mod1Mask,xK_Print), spawn "sleep 0.1 && scrot -s '/tmp/screenshot.png' && xclip -selection clipboard -t image/png -i /tmp/screenshot.png && notify-send -t 1000 'Screenshot' 'Screenshot taken'"), --Alt+printscreen to take an area
+	  ((0,xK_Print), spawn "sleep 0.1 && scrot '/tmp/screenshot.png' && xclip -selection clipboard -t image/png -i /tmp/screenshot.png && notify-send -t 1000 'Screenshot' 'Screenshot taken'"), --Printscreen to take screenshot of all monitors
  	  ((mod4Mask, xK_c),spawn "xdotool click 2"),	--Middle click
 	  ((mod1Mask, 0x0060),kill),
+      ((mod1Mask,xK_F1),spawn "notify-send -t 2000 'Current time' `date '+%R'`"),
+      ((mod1Mask,xK_F2),spawn "bs -n"), --Outputs battery percentage in a notifcation
 
-	  --Volume Control Hotkeys
+
 	  ((mod4Mask .|. controlMask, xK_minus),spawn "amixer sset Master 10%- && amixer -c 1 sset Speaker 10%-"),
 	  ((mod4Mask .|. controlMask, xK_equal),spawn "amixer sset Master 10%+ && amixer -c 1 sset Speaker 10%+"),
-	  
-	  --Brightness Control Keys
 	  ((controlMask .|. shiftMask, xK_minus),spawn "brightnessChanger -d"),
 	  ((controlMask .|. shiftMask,xK_equal),spawn "brightnessChanger -i"),
+	  
+      --Binding my function keys to shell commands
+	  ((0, brightnessUp),spawn "brightnessChanger -i"), --0x1
+	  ((0, brightnessDown),spawn "brightnessChanger -d"),
+	  ((0, audioLowerVolume),spawn "amixer sset Master 10%- && amixer -c 1 sset Speaker 10%-"),
+	  ((0, audioRaiseVolume),spawn "amixer sset Master 10%+ && amixer -c 1 sset Speaker 10%+"),
+	  ((0, audioMute),spawn "amixer sset Master 0% && amixer -c 1 sset Speaker 0%"),
+    
 	  ((mod1Mask .|. shiftMask, xK_l), spawn "toggleScreen"),--Toggle between 0% and 100% brightness
 	  --Quick type hotkeys
-	  ((mod4Mask,xK_o),spawn "quickType javaSystemOut"),
 	  ((mod4Mask,xK_t),spawn "quickType twitch"),
 	  ((mod4Mask, xK_n),spawn "quickType githubName"), 
+
+
 	  ((mod1Mask, xK_s),spawn "vimSave"),
 	  ((mod1Mask .|. shiftMask, xK_s),spawn "vimSaveAndGoToInsertMode"),
 	  --Program Launcher Hotkeys
@@ -109,11 +125,12 @@ defaults = defaultConfig {
 -----------------------------------------------------------
 
 myLayout = Full ||| tiled --  ||| Grid  --Grid is a horizontally split screen layout
+
+tiled = Tall nmaster delta ratio
   where
-	tiled = Tall nmaster delta ratio
-	nmaster = 1
-	ratio = 1/2
-	delta = 5/100
+    nmaster = 1
+    ratio   = 1/2
+    delta   = 5/100
 
 ------------------------------------------------------------
 --Commands run at startup
@@ -123,7 +140,10 @@ myLayout = Full ||| tiled --  ||| Grid  --Grid is a horizontally split screen la
 --Programs are moved to proper workspaces by the myManageHook below
 
 myStartupHook = do 	
+-- xset r rate 300 50
 	spawnOn "1" "xset r rate 200 50" --Setting how fast presses are repeated when a key is held down.
+
+	spawnOn "1" "xset mouse 100 15" --Setting acceleration and threshold for pointing devices
 
 	spawnOn "1" "ck" --Disables Caps Lock and maps Caps Lock to Esacpe
 
@@ -133,15 +153,17 @@ myStartupHook = do
 
 	spawnOn "1" "bluetooth off" --Command given by tlp.deb
 
-	spawnOn "1" "comptonStart"
+--	spawnOn "1" "comptonStart"
 
 	spawnOn "1" "disableScreenSleep" 
+
+	spawnOn "1" "redshift && echo running > ~/bin/controlFiles/redshiftControlFile" 
 
 	spawnOn "1" "monitorAutoConnector" 
 
 	spawnOn "1" "usbDeviceListener"
 
-	spawnOn "1" "/usr/lib/notification-daemon/notification-daemon"
+	--spawnOn "1" "/usr/lib/notification-daemon/notification-daemon"
 
 
 
@@ -151,6 +173,8 @@ myStartupHook = do
 
 myManageHook = composeAll
 	[--Find the name of the window using xwininfo and clicking on the window
+    --Find window title using `xwininfo` then click on the window
+    --Find class name using `xprop | grep WM_CLASS` then click on the window
 	--Working shifts
 	className =? "Chromium"                --> doF (XMonad.StackSet.shift "2"),
 	className =? "Firefox"                 --> doF (XMonad.StackSet.shift "2"),
@@ -163,6 +187,7 @@ myManageHook = composeAll
 	className =? "Eclipse "                --> doF (XMonad.StackSet.shift "4"),
 	className =? "Atom"                    --> doF (XMonad.StackSet.shift "4"),
 	className =? "Waterfox"                --> doF (XMonad.StackSet.shift "6"),
+	appName   =? "virt-manager"            --> doF (XMonad.StackSet.shift "5"),
 	--Working floats
 	className =? "Gimp"                    --> doFloat,
 	className =? "netbeans"                --> doFloat, --One of these 4 lines appears to make netbeans display properly
@@ -170,12 +195,13 @@ myManageHook = composeAll
 	className =? "Netbeans IDE 8.2"        --> doF (XMonad.StackSet.shift "4"),
 	appName   =? "Netbeans IDE 8.2"        --> doF (XMonad.StackSet.shift "4"),
 	--Work In Progress
-    className =? "Shutter"                 --> doF (XMonad.StackSet.shift "8"),
-    appName   =? "Shutter"                 --> doF (XMonad.StackSet.shift "8"),
+	className =? "jetbrains-studio"        --> doF (XMonad.StackSet.shift "4"),
+	appName =? "jetbrains-studio"        --> doF (XMonad.StackSet.shift "4"),
     appName   =? "Session - Shutter"       --> doF (XMonad.StackSet.shift "8"),
 	appName   =? "libreoffice"             --> doF (XMonad.StackSet.shift "3"),
 	className =? "LibreOffice Impress"     --> doF (XMonad.StackSet.shift "3"),
-	className =? "Volume Control"          --> doF (XMonad.StackSet.shift "7") --pavucontrol
+	className =? "jetbrains-clion"       --> doF (XMonad.StackSet.shift "4"),
+	className =? "Volume Control"          --> doF (XMonad.StackSet.shift "7") --pavucontrol    
 	]
 
 ------------------------------------------------------------

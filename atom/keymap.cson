@@ -1,0 +1,3 @@
+'atom-workspace':
+    'ctrl-shift-e':'vim-mode-plus:toggle-enabled'
+    'ctrl-shift-w':'relative-numbers:toggle-enabled'

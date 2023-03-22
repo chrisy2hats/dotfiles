@@ -4,16 +4,13 @@
 
 --Currently used libraries
 import XMonad
+import XMonad.Config
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.NoBorders
 import XMonad.Util.EZConfig(additionalKeys,removeKeys) 
 import XMonad.Actions.SpawnOn
 import qualified XMonad.StackSet 
 import XMonad.Hooks.SetWMName
-
------------------------------------------------------------
---Main function
------------------------------------------------------------
 
 --Xorg keycodes according to /usr/include/X11/XF86keysym.h
 brightnessDown   = 0x1008FF03 
@@ -25,7 +22,7 @@ audioMute	     = 0x1008ff12
 main = do
     xmonad $ defaults
         {
-	 layoutHook = lessBorders OnlyFloat $ avoidStruts $ myLayout
+	 layoutHook = lessBorders OnlyScreenFloat $ avoidStruts $ myLayout
         }
 
 

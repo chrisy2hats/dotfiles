@@ -1,25 +1,60 @@
 [global_config]
-  borderless = True
   geometry_hinting = True
-  inactive_color_offset = 0.75
-  suppress_multiple_term_dialog = True
+  window_state = maximise
   tab_position = hidden
   title_hide_sizetext = True
-  title_inactive_bg_color = "#2e3436"
-  title_receive_bg_color = "#2e3436"
   title_transmit_bg_color = "#2e3436"
-  window_state = maximise
+  title_receive_bg_color = "#2e3436"
+  title_inactive_bg_color = "#2e3436"
+  inactive_color_offset = 0.7564102564102564
+  enabled_plugins = LaunchpadBugURLHandler, LaunchpadCodeURLHandler, APTURLHandler, TerminatorFileManager
+  suppress_multiple_term_dialog = True
 [keybindings]
-  broadcast_off = <Shift><Alt>a
+  go_up = <Alt>k
   go_down = <Alt>j
   go_left = <Alt>h
   go_right = <Alt>l
-  go_up = <Alt>k
-  layout_launcher = <Super>l
-  move_tab_left = None
   move_tab_right = None
+  move_tab_left = None
   next_tab = None
   prev_tab = <Primary><Shift>q
+  broadcast_off = <Shift><Alt>a
+  layout_launcher = <Super>l
+[profiles]
+  [[default]]
+    icon_bell = False
+    background_darkness = 0.43
+    cursor_color = "#aaaaaa"
+    font = Ubuntu Mono 13
+    show_titlebar = False
+    scrollbar_position = hidden
+    scrollback_infinite = True
+    custom_command = configureTerminator
+    use_system_font = False
+    copy_on_selection = True
+  [[alsamixer]]
+    background_darkness = 0.39
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    show_titlebar = False
+    login_shell = True
+    use_custom_command = True
+    custom_command = alsamixer -c 0
+  [[ct]]
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+  [[htop]]
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    show_titlebar = False
+    login_shell = True
+    use_custom_command = True
+    custom_command = htop -C
+  [[pavucontrol]]
+    cursor_color = "#aaaaaa"
+    login_shell = True
+    use_custom_command = True
+    custom_command = pavucontrol
 [layouts]
   [[default]]
     [[[child1]]]
@@ -181,38 +216,3 @@
       type = Terminal
       uuid = b178fdb6-2a32-410a-9dbb-0a8d58713def
 [plugins]
-[profiles]
-  [[default]]
-    background_darkness = 0.43
-    background_type = transparent
-    copy_on_selection = True
-    cursor_color = "#aaaaaa"
-    custom_command = configureTerminator
-    font = Ubuntu Mono 13
-    icon_bell = False
-    scrollbar_position = hidden
-    show_titlebar = False
-    use_system_font = False
-  [[alsamixer]]
-    background_darkness = 0.39
-    background_type = transparent
-    cursor_color = "#aaaaaa"
-    custom_command = alsamixer -c 0
-    login_shell = True
-    show_titlebar = False
-    use_custom_command = True
-  [[ct]]
-    background_type = transparent
-    cursor_color = "#aaaaaa"
-  [[htop]]
-    background_type = transparent
-    cursor_color = "#aaaaaa"
-    custom_command = htop -C
-    login_shell = True
-    show_titlebar = False
-    use_custom_command = True
-  [[pavucontrol]]
-    cursor_color = "#aaaaaa"
-    custom_command = pavucontrol
-    login_shell = True
-    use_custom_command = True

@@ -1,0 +1,134 @@
+# Put the following in $HOME/.bashrc or $HOME/.zshrc
+# if [ -f ~/.bash_aliases ]
+# then
+#        . ~/.bash_aliases
+# fi
+
+export EDITOR=vim
+
+#######################
+# OS Specific Aliases #
+#######################
+
+if [ "$(uname)" = "Linux" ]
+then
+  	alias laptop-mode='sudo bash -c "echo 1 > /proc/sys/vm/laptop_mode"'
+	alias make="make -j $(nproc)"
+  	alias pause="kill -TSTP"
+	alias free="free -h"
+	alias vmls='virsh list --all'
+	alias vmips='virsh net-dhcp-leases default'
+	alias lw='nmcli d wifi list'
+
+	#Docker aliases
+	alias ds='docker ps'
+	function docker_irm(){
+		docker rm $(docker ps -a | grep -v "$1" | cut -d ' ' -f1)
+	}
+  	function de(){
+  		docker exec -it "$1" bash
+  	}
+
+  	function disable_yama_ptrace_scope(){
+  		sudo bash -c  echo "0" > /proc/sys/kernel/yama/ptrace_scope
+  	}
+	function batterystatus(){
+		#call with -n for a notify-send version.
+		powerLevelLong=`upower -i $(upower -e | grep 'BAT') | grep -E "state|to full|percentage" | grep perc`
+		powerLevel=${powerLevelLong#*percentage:}
+		pl=`echo $powerLevel` #removes tabs before the percentage
+		charging=`upower -i $(upower -e) | grep 'online:'`
+		chargingReduced=${charging#*online:}
+		timeTillEmpty=`upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "time to empty:" | sed 's/.*://'`
+		if [[ "$1" == "-n" ]]
+		then
+		    if [ -z "$timeTillEmpty" ]
+		    then
+			notify-send -t 3000 "Battery Status" "Currently at: $pl\nCharging:$chargingReduced"
+		else
+			notify-send -t 3000 "Battery Status" "Currently at: $pl\nCharging:$chargingReduced\nTime remaining:$timeTillEmpty"
+		fi
+		else
+			echo "Battery currently at: $pl at `date '+%R'`"
+			echo "Charging: $chargingReduced"
+		fi
+	}
+  fi 
+
+  if [ "$(uname)" = "FreeBSD" ]
+  then
+	alias free="grep memory /var/run/dmesg.boot"
+  fi
+
+  if [ "$(uname)" = "OpenBSD" ]
+  then
+	echo -n ""
+  fi
+
+###############
+# OS Agnostic #
+###############
+
+function shortPWD(){
+	if [ -n "$(echo $PWD | grep -o "$HOME")" ] #-n = if null
+	then
+		output=${PWD#*$USER}
+		output=`echo "~$output"`
+	else
+		output="$PWD"
+	fi
+
+	#Below code appends to the prompt when in a git repo.
+	# Will equal (branch) in a git repo e.g. (master)
+	#From: https://askubuntu.com/questions/730754/how-do-i-show-the-git-branch-with-colours-in-bash-prompt
+	gitRepoPrompt=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'` 
+	echo -e "$output""$gitRepoPrompt"
+}
+
+function s(){
+	if [ -f env/bin/activate ]
+	then
+		source env/bin/activate 
+	fi
+
+	if [ -f venv/bin/activate ]
+	then
+		source venv/bin/activate 
+	fi
+}
+
+#Shortened terminal navigation
+alias ll='ls -lah'
+alias la='ls -a' 
+alias lll='ls -lah'
+alias lsl='ls -lah'
+alias lsl='ls -lah'
+alias lll='ls -lah'
+alias ll='ls'
+alias l='ls'
+
+alias cp='cp -r'
+alias rm='rm -rf'
+
+alias gl='cd ~/git && ls'
+alias dl='cd ~/Documents && ls'
+alias Dl='cd ~/Downloads && ls'
+
+alias be='$EDITOR ~/.bashrc'
+alias bae='$EDITOR ~/.bash_aliases'
+
+#Misc aliases
+alias ncdu='ncdu --exclude git --exclude .cache --exclude Downloads'
+alias cloc='cloc --exclude-dir=catch2 --exclude-lang=make,CMake,XML,Dockerfile,Prolog --not-match-d=build'
+
+#Fun aliases
+alias hackerMode='setterm -foreground green'
+alias normalMode='setterm --reset'
+alias tron='ssh sshtron.zachlatta.com'
+alias starwars='telnet towel.blinkenlights.nl'
+
+alias grepr="grep -RIin"
+alias gc="git commit -m"
+alias ga="git add -N . && git add -p"
+alias gp="git push"
+alias gs="git status"

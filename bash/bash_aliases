@@ -29,6 +29,21 @@ then
   		docker exec -it "$1" bash
   	}
 
+	function ,update-system() {
+		if [[ -n "$(whereis dnf)" ]]; then
+			echo "Updating DNF"
+			sudo bash -c "dnf update";
+		elif [[ -n "$(whereis apt)" ]]; then
+			echo -n ""
+			sudo bash -c "apt update -y; apt upgrade -y"
+		fi
+
+		if [[ -n "$(whereis flatpak)" ]]; then
+			printf "\nUpdating flatpak\n"
+			flatpak update -y
+		fi
+	}
+
   	function disable_yama_ptrace_scope(){
   		sudo bash -c  echo "0" > /proc/sys/kernel/yama/ptrace_scope
   	}

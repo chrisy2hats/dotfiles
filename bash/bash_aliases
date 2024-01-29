@@ -30,19 +30,20 @@ then
   	}
 
 	function ,update-system() {
-		if [[ -n "$(whereis dnf)" ]]; then
+		if which dnf >/dev/null; then
 			echo "Updating DNF"
-			sudo bash -c "dnf update";
-		elif [[ -n "$(whereis apt)" ]]; then
+			sudo bash -c "dnf update -y";
+		elif which apt >/dev/null; then
 			echo -n ""
 			sudo bash -c "apt update -y; apt upgrade -y"
 		fi
 
-		if [[ -n "$(whereis flatpak)" ]]; then
+		if which flatpak >/dev/null; then
 			printf "\nUpdating flatpak\n"
 			flatpak update -y
 		fi
-	}
+
+}
 
   	function disable_yama_ptrace_scope(){
   		sudo bash -c  echo "0" > /proc/sys/kernel/yama/ptrace_scope

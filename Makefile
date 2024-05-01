@@ -12,6 +12,12 @@ install-terminator:
 install-vim:
 	cp -f vim/vimrc ~/.vimrc
 
+install-vim-theme:
+	mkdir -p ~/.vim/colors
+	git clone https://github.com/sjl/badwolf.git /tmp/badwolf
+	mv /tmp/badwolf/colors/* ~/.vim/colors
+	rm -rf /tmp/badwolf
+
 install-xmonad:
 	mkdir -p ~/.xmonad
 	cp -f xmonad/xmonad.hs ~/.xmonad/xmonad.hs

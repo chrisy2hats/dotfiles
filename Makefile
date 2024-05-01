@@ -1,5 +1,5 @@
 .PHONY : all
-all: install-bash install-terminator install-vim install-xmonad 
+all: install-bash install-terminator install-vim install-xmonad install-git
 .DEFAULT_GOAL := all
 
 install-bash:

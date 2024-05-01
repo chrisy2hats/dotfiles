@@ -1,3 +1,7 @@
+.PHONY : all
+all: install-bash install-terminator install-vim install-xmonad 
+.DEFAULT_GOAL := all
+
 install-bash:
 	cp -f bash/bash_aliases ~/.bash_aliases
 

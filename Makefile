@@ -25,3 +25,6 @@ install-xmonad:
 install-xmonad-steam:
 	mkdir -p ~/.xmonad
 	cp -f xmonad/steamCompatibleXmonad.hs ~/.xmonad/xmonad.hs
+
+install-git:
+	cp -f git/gitconfig ~/.gitconfig

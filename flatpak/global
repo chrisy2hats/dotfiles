@@ -1,0 +1,9 @@
+[Context]
+sockets=!gpg-agent;!pcsc;!ssh-auth;!system-bus;!session-bus
+filesystems=~/.XCompose:ro;xdg-config/fontconfig:ro;!~/.gnupg;!~/.ssh;!xdg-documents;!home;!host
+shared=!network
+device=!all
+
+[Session Bus Policy]
+org.freedesktop.Flatpak=none
+org.freedesktop.secrets=none

@@ -28,3 +28,7 @@ install-xmonad-steam:
 
 install-git:
 	cp -f git/gitconfig ~/.gitconfig
+
+install-flatpak:
+	mkdir -p ~/.local/share/flatpak/overrides
+	cp -f flatpak/global ~/.local/share/flatpak/overrides

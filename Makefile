@@ -32,3 +32,6 @@ install-git:
 install-flatpak:
 	mkdir -p ~/.local/share/flatpak/overrides
 	cp -f flatpak/global ~/.local/share/flatpak/overrides
+
+configure-dnf:
+	sudo bash -c "cat dnf/dnf.conf >> /etc/dnf/dnf.conf"

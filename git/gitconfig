@@ -1,3 +1,14 @@
+[push]
+	autoSetupRemote = true
 [user]
 	email = 25178084+chrisy2hats@users.noreply.github.com
 	name = Chris
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = false
+
+[alias]
+	hist = log --graph --abbrev-commit --decorate --date=short \
+		--format=format:'%C(bold cyan)%h%C(reset) %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)%an%C(reset) %C(bold yellow)%d%C(reset)' 

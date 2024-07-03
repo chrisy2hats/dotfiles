@@ -1,0 +1,34 @@
+[Application rules for steam]
+Description=Application rules for steam
+desktops=9f93b03b-6b93-4387-8d16-e79c35191492
+desktopsrule=3
+wmclass=steam
+wmclassmatch=1
+
+[Application settings for discord]
+Description=Application settings for discord
+clientmachine=localhost
+desktops=ef6c2ce2-062a-4101-acf5-3440f141c486
+desktopsrule=3
+windowrole=browser-window
+wmclass=discord
+wmclassmatch=1
+
+[Application settings for spotify]
+Description=Application settings for spotify
+clientmachine=localhost
+desktops=acccd1f4-1329-424b-ae5c-e8241967519b
+desktopsrule=3
+wmclass=spotify
+wmclassmatch=1
+
+[Window settings for discord]
+Description=Window settings for discord
+clientmachine=localhost
+desktops=ebff705b-4725-4146-a116-9f8573a11536,ef6c2ce2-062a-4101-acf5-3440f141c486
+desktopsrule=3
+types=1
+windowrole=browser-window
+windowrolematch=1
+wmclass=discord
+wmclassmatch=1

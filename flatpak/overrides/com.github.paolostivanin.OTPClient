@@ -1,0 +1,4 @@
+[Context]
+shared=!ipc
+devices=!all
+filesystems=xdg-documents

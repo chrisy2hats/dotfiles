@@ -29,9 +29,14 @@ install-xmonad-steam:
 install-git:
 	cp -f git/gitconfig ~/.gitconfig
 
-install-flatpak:
+install-flatpak-overrides:
 	mkdir -p ~/.local/share/flatpak/overrides
-	cp -f flatpak/global ~/.local/share/flatpak/overrides
+	cp -f flatpak/overrides/* ~/.local/share/flatpak/overrides/
 
 configure-dnf:
 	sudo bash -c "cat dnf/dnf.conf >> /etc/dnf/dnf.conf"
+
+install-firefox-flatpak-stub:
+	cp firefox/flatpak-stub /tmp
+	vim /tmp/flatpak-stub
+	mv /tmp/flatpak-stub /usr/bin/firefox

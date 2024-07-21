@@ -1,3 +1,5 @@
 [Context]
-sockets=!x11
+shared=network
+sockets=!cups;!fallback-x11;!x11
+devices=!all;shm;dri
 filesystems=~/.mozilla

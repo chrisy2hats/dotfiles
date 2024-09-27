@@ -33,6 +33,9 @@ install-flatpak-overrides:
 	mkdir -p ~/.local/share/flatpak/overrides
 	cp -f flatpak/overrides/* ~/.local/share/flatpak/overrides/
 
+configure-environment:
+	sudo bash -c "cat etc/environment >> /etc/environment"
+
 configure-dnf:
 	sudo bash -c "cat dnf/dnf.conf >> /etc/dnf/dnf.conf"
 

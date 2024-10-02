@@ -41,6 +41,8 @@ then
 		if which flatpak >/dev/null; then
 			printf "\nUpdating flatpak\n"
 			flatpak update -y
+			printf "\nUninstalling unsed runtimes\n"
+			flatpak uninstall --unused -y
 		fi
 
 }

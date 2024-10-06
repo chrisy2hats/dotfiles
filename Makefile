@@ -40,7 +40,10 @@ configure-dnf:
 	sudo bash -c "cat dnf/dnf.conf >> /etc/dnf/dnf.conf"
 
 configure-make-autocomplete:
-	echo "complete -W \"\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$$//'\`\" make" >> ~/.bashrc
+	echo "complete -W \"\\\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$$//'\\\`\" make" >> ~/.bashrc
+
+add-flathub-remote:
+	flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo"
 
 install-firefox-flatpak-stub:
 	cp firefox/flatpak-stub /tmp

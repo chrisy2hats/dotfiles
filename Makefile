@@ -39,6 +39,9 @@ configure-environment:
 configure-dnf:
 	sudo bash -c "cat dnf/dnf.conf >> /etc/dnf/dnf.conf"
 
+configure-make-autocomplete:
+	echo "complete -W \"\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$$//'\`\" make" >> ~/.bashrc
+
 install-firefox-flatpak-stub:
 	cp firefox/flatpak-stub /tmp
 	vim /tmp/flatpak-stub

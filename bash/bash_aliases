@@ -87,20 +87,10 @@ then
 # OS Agnostic #
 ###############
 
-function shortPWD(){
-	if [ -n "$(echo $PWD | grep -o "$HOME")" ] #-n = if null
-	then
-		output=${PWD#*$USER}
-		output=`echo "~$output"`
-	else
-		output="$PWD"
-	fi
-
-	#Below code appends to the prompt when in a git repo.
-	# Will equal (branch) in a git repo e.g. (master)
-	#From: https://askubuntu.com/questions/730754/how-do-i-show-the-git-branch-with-colours-in-bash-prompt
-	gitRepoPrompt=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'` 
-	echo -e "$output""$gitRepoPrompt"
+# Set shell prompt to include git branch like "~/git/foo (SOME-branch)$"
+function ,ps1_prompt() {
+	local git_branch="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')"
+	echo -n "\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[91m\] $git_branch\[\e[00m\]$ "
 }
 
 function s(){

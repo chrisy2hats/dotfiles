@@ -42,6 +42,10 @@ configure-dnf:
 configure-make-autocomplete:
 	echo "complete -W \"\\\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$$//'\\\`\" make" >> ~/.bashrc
 
+
+configure-ps1:
+	echo 'export PS1="$$(,ps1_prompt)"' >> ~/.bashrc
+
 add-flathub-remote:
 	flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo"
 

@@ -9,6 +9,12 @@ install-terminator:
 	mkdir -p ~/.config/terminator/
 	cp -f terminator/config ~/.config/terminator/
 
+install-terminator-plugin:
+	git clone https://github.com/chrisy2hats/TerminatorFileManager /tmp/TerminatorFileManager
+	mkdir -p ~/.config/terminator/plugins/
+	mv /tmp/TerminatorFileManager/plugin.py ~/.config/terminator/plugins/
+
+
 install-vim:
 	cp -f vim/vimrc ~/.vimrc
 

@@ -87,10 +87,14 @@ then
 # OS Agnostic #
 ###############
 
+
+function parse_git_branch() {
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
 # Set shell prompt to include git branch like "~/git/foo (SOME-branch)$"
 function ,ps1_prompt() {
-	local git_branch="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')"
-	echo -n "\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[91m\] $git_branch\[\e[00m\]$ "
+echo -n "\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[91m\] \$(parse_git_branch)\[\e[00m\]$ "
 }
 
 function s(){

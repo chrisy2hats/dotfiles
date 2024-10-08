@@ -52,6 +52,9 @@ configure-make-autocomplete:
 configure-ps1:
 	echo 'export PS1="$$(,ps1_prompt)"' >> ~/.bashrc
 
+configure-go:
+	go env -w GOPATH=$$HOME/.go
+
 add-flathub-remote:
 	flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo"
 

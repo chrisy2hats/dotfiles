@@ -25,3 +25,6 @@ Settings -> Drop down -> Switch to Icon View
 
 # Remove pager from taskbar
 Rightclick taskbar -> Enter edit mode -> Remove pager
+
+# Remove workspace switch animation
+Settings -> Workspace Behaviour -> Virtual Desktops -> Show animation display when switch (uncheck)

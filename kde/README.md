@@ -16,3 +16,12 @@ apt-get install kwin-addons
 ```
 # Double click to open in Dolphin
 Workspace Behaviour -> General Behaviour -> Clicking on files or folders: Selects them
+
+# Set theme
+Settngs -> Appearance -> Global Theme -> Breeze Dark
+
+# Settings Switch to Icon View
+Settings -> Drop down -> Switch to Icon View
+
+# Remove pager from taskbar
+Rightclick taskbar -> Enter edit mode -> Remove pager

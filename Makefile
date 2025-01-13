@@ -66,3 +66,7 @@ install-firefox-flatpak-stub:
 # Flatpak firefox prefers wacky old fonts installed on Debian by default for some reason
 uninstall-bad-x11-fonts:
 	apt-get purge xfonts-75dpi xfonts-100dpi
+
+add-to-groups:
+	sudo /sbin/usermod -aG sudo $$(whoami)
+	sudo /sbin/usermod -aG docker $$(whoami)

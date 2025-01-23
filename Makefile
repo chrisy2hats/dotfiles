@@ -56,7 +56,7 @@ configure-go:
 	go env -w GOPATH=$$HOME/.go
 
 add-flathub-remote:
-	flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo"
+	flatpak remote-add --if-not-exists flathub "https://dl.flathub.org/repo/flathub.flatpakrepo" --user
 
 install-firefox-flatpak-stub:
 	cp firefox/flatpak-stub /tmp

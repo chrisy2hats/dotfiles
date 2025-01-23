@@ -35,7 +35,7 @@ then
 			sudo bash -c "dnf update -y";
 		elif which apt >/dev/null; then
 			echo -n ""
-			sudo bash -c "apt update -y; apt upgrade -y"
+			sudo bash -c "apt update --yes; apt upgrade --yes; apt autoremove --purge --yes"
 		fi
 
 		if which flatpak >/dev/null; then

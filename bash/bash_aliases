@@ -29,6 +29,24 @@ then
   		docker exec -it "$1" bash
   	}
 
+	function ,container_engine(){
+		if which podman > /dev/null; then 
+			echo -n "podman"
+	 	else echo -n "docker"
+ 		fi
+	}
+
+	function ,exec-first(){
+		local containerengine="$(,container_engine)"
+		local linecount="$($containerengine ps | wc -l)"
+		if [[ "$linecount" == "1" ]]
+		then
+			echo "No containers running"
+		else
+			$containerengine exec -it $($containerengine ps | tail -n 1 | rev | cut -d" " -f1 | rev) bash
+		fi
+	}
+
 	function ,update-system() {
 		if which dnf >/dev/null; then
 			echo "Updating DNF"

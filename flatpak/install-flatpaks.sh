@@ -1,4 +1,19 @@
-flatpaks=( "org.mozilla.firefox" "com.github.paolostivanin.OTPClient")
+flatpaks=(
+  "com.discordapp.Discord"
+  "com.github.paolostivanin.OTPClient"
+  "com.github.tchx84.Flatseal"
+  "com.google.Chrome"
+  "com.heroicgameslauncher.hgl"
+  "com.spotify.Client"
+  "com.valvesoftware.Steam"
+  "md.obsidian.Obsidian"
+  "org.keepassxc.KeePassXC"
+  "org.libreoffice.LibreOffice"
+  "org.mozilla.firefox"
+  "org.prismlauncher.PrismLauncher"
+  "org.texstudio.TeXstudio"
+  "org.videolan.VLC"
+)
 
 debug="$1"
 
@@ -16,8 +31,8 @@ function main(){
 		read resp
 		if [[ "$resp" == "n" ]]
 		then
-			debug "Not installed $package"
-			flatpaks=( "${flatpaks[@]/$package}" )
+			debug "Not installing $package"
+			flatpaks=( ${flatpaks[@]/$package} )
 		else
 			debug "Will install $package"
 		fi
@@ -29,7 +44,7 @@ function main(){
 		exit 1
 	fi
 
-	debug "Flatpaks to install ${flatpaks[@]}"
+	debug "Flatpaks to install \"${flatpaks[@]}\""
 
 	for package in "${flatpaks[@]}"
 	do

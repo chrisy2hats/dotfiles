@@ -36,6 +36,10 @@ then
 		elif which apt >/dev/null; then
 			echo -n ""
 			sudo bash -c "apt update --yes; apt upgrade --yes; apt autoremove --purge --yes"
+			if [ -f /var/run/reboot-required ]
+			then
+				echo "Reboot required"
+			fi
 		fi
 
 		if which flatpak >/dev/null; then

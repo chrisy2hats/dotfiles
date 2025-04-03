@@ -28,3 +28,7 @@ Rightclick taskbar -> Enter edit mode -> Remove pager
 
 # Remove workspace switch animation
 Settings -> Workspace Behaviour -> Virtual Desktops -> Show animation display when switch (uncheck)
+
+# Disable caps lock
+Input devices -> Keyboard -> Caps Lock behaviour -> Make Caps lock additional Esc
+

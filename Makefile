@@ -70,3 +70,6 @@ uninstall-bad-x11-fonts:
 add-to-groups:
 	sudo /sbin/usermod -aG sudo $$(whoami)
 	sudo /sbin/usermod -aG docker $$(whoami)
+
+disable-deb-src:
+	sudo sed -E -i 's/^deb-src/#deb-src/g' /etc/apt/sources.list

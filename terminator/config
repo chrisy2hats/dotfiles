@@ -2,13 +2,9 @@
   geometry_hinting = True
   window_state = maximise
   tab_position = hidden
-  title_hide_sizetext = True
-  title_transmit_bg_color = "#2e3436"
-  title_receive_bg_color = "#2e3436"
-  title_inactive_bg_color = "#2e3436"
   inactive_color_offset = 0.7564102564102564
   enabled_plugins = LaunchpadBugURLHandler, LaunchpadCodeURLHandler, APTURLHandler, TerminatorFileManager
-  suppress_multiple_term_dialog = True
+  ask_before_closing = never
 [keybindings]
   go_up = <Alt>k
   go_down = <Alt>j
@@ -24,37 +20,12 @@
   [[default]]
     icon_bell = False
     background_darkness = 0.43
-    cursor_color = "#aaaaaa"
     font = Ubuntu Mono 13
     show_titlebar = False
     scrollbar_position = hidden
     scrollback_infinite = True
     custom_command = configureTerminator
-    use_system_font = False
     copy_on_selection = True
-  [[alsamixer]]
-    background_darkness = 0.39
-    background_type = transparent
-    cursor_color = "#aaaaaa"
-    show_titlebar = False
-    login_shell = True
-    use_custom_command = True
-    custom_command = alsamixer -c 0
-  [[ct]]
-    background_type = transparent
-    cursor_color = "#aaaaaa"
-  [[htop]]
-    background_type = transparent
-    cursor_color = "#aaaaaa"
-    show_titlebar = False
-    login_shell = True
-    use_custom_command = True
-    custom_command = htop -C
-  [[pavucontrol]]
-    cursor_color = "#aaaaaa"
-    login_shell = True
-    use_custom_command = True
-    custom_command = pavucontrol
 [layouts]
   [[default]]
     [[[child1]]]
@@ -65,154 +36,4 @@
     [[[window0]]]
       parent = ""
       type = Window
-  [[IDE]]
-    [[[child0]]]
-      fullscreen = False
-      last_active_term = 3183932f-8789-4a06-927f-865d1a331bdc
-      last_active_window = True
-      maximised = True
-      order = 0
-      parent = ""
-      position = 0:0
-      size = 1366, 768
-      title = /bin/bash
-      type = Window
-    [[[child1]]]
-      order = 0
-      parent = child0
-      position = 129
-      ratio = 0.16796875
-      type = VPaned
-    [[[child3]]]
-      order = 1
-      parent = child1
-      position = 908
-      ratio = 0.664714494876
-      type = HPaned
-    [[[terminal2]]]
-      order = 0
-      parent = child1
-      profile = default
-      type = Terminal
-      uuid = 3cd87227-4da1-47e1-a0b6-42a331d8265e
-    [[[terminal4]]]
-      order = 0
-      parent = child3
-      profile = default
-      type = Terminal
-      uuid = 3183932f-8789-4a06-927f-865d1a331bdc
-    [[[terminal5]]]
-      order = 1
-      parent = child3
-      profile = default
-      type = Terminal
-      uuid = 03b229e1-7b24-42fe-9ad5-a3444ac9aebe
-  [[ct]]
-    [[[child0]]]
-      fullscreen = False
-      last_active_term = 005ed799-dfcc-4639-8a60-d3f02f88ccbb
-      last_active_window = True
-      maximised = True
-      order = 0
-      parent = ""
-      position = 0:0
-      size = 1366, 768
-      title = /bin/bash
-      type = Window
-    [[[child1]]]
-      order = 0
-      parent = child0
-      position = 683
-      ratio = 0.5
-      type = HPaned
-    [[[child2]]]
-      order = 0
-      parent = child1
-      position = 384
-      ratio = 0.5
-      type = VPaned
-    [[[child5]]]
-      order = 1
-      parent = child1
-      position = 384
-      ratio = 0.5
-      type = VPaned
-    [[[terminal3]]]
-      order = 0
-      parent = child2
-      profile = default
-      type = Terminal
-      uuid = 005ed799-dfcc-4639-8a60-d3f02f88ccbb
-    [[[terminal4]]]
-      order = 1
-      parent = child2
-      profile = default
-      type = Terminal
-      uuid = 0e57cf6c-05a8-4ce0-8c66-a8322c2ddccb
-    [[[terminal6]]]
-      order = 0
-      parent = child5
-      profile = default
-      type = Terminal
-      uuid = c37f4ed8-f65d-45ee-b041-f7b143cd6dea
-    [[[terminal7]]]
-      order = 1
-      parent = child5
-      profile = default
-      type = Terminal
-      uuid = f4527fdc-1c21-4cf3-87f2-f5d29aa4d776
-  [[ctGrouped]]
-    [[[child0]]]
-      fullscreen = False
-      last_active_term = 64eae614-a327-4bd7-964b-57b5824d1185
-      last_active_window = True
-      maximised = False
-      order = 0
-      parent = ""
-      position = 683:0
-      size = 683, 768
-      title = /bin/bash
-      type = Window
-    [[[child1]]]
-      order = 0
-      parent = child0
-      position = 342
-      ratio = 0.500732064422
-      type = HPaned
-    [[[child2]]]
-      order = 0
-      parent = child1
-      position = 384
-      ratio = 0.5
-      type = VPaned
-    [[[child5]]]
-      order = 1
-      parent = child1
-      position = 384
-      ratio = 0.5
-      type = VPaned
-    [[[terminal3]]]
-      order = 0
-      parent = child2
-      profile = darkTerminal
-      type = Terminal
-      uuid = 54382389-7f6f-4996-89b2-890d7c6c373d
-    [[[terminal4]]]
-      order = 1
-      parent = child2
-      profile = darkTerminal
-      type = Terminal
-      uuid = 9a24e177-3855-45f6-abec-ccb9a78ca863
-    [[[terminal6]]]
-      order = 0
-      parent = child5
-      profile = darkTerminal
-      type = Terminal
-      uuid = 64eae614-a327-4bd7-964b-57b5824d1185
-    [[[terminal7]]]
-      order = 1
-      parent = child5
-      profile = darkTerminal
-      type = Terminal
-      uuid = b178fdb6-2a32-410a-9dbb-0a8d58713def
 [plugins]

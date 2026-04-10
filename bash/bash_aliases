@@ -52,14 +52,14 @@ then
 			echo "Updating DNF"
 			sudo bash -c "dnf update -y";
 		elif which apt >/dev/null; then
-			echo -n "Updating APT"
+			echo "Updating APT"
 			sudo bash -c "apt update --yes; apt upgrade --yes; apt autoremove --purge --yes"
 			if [ -f /var/run/reboot-required ]
 			then
 				echo "Reboot required"
 			fi
 		elif which steamos-update >/dev/null; then
-			echo -n "Updating SteamOS"
+			echo "Updating SteamOS"
 			steamos-update
 		fi
 

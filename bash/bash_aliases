@@ -14,11 +14,8 @@ if [ "$(uname)" = "Linux" ]
 then
   	alias laptop-mode='sudo bash -c "echo 1 > /proc/sys/vm/laptop_mode"'
 	alias make="make -j $(nproc)"
-  	alias pause="kill -TSTP"
-	alias free="free -h"
 	alias vmls='virsh list --all'
 	alias vmips='virsh net-dhcp-leases default'
-	alias lw='nmcli d wifi list'
 
 	#Docker aliases
 	alias ds='docker ps'
@@ -28,13 +25,6 @@ then
   	function de(){
   		docker exec -it "$1" bash
   	}
-
-	function ,container_engine(){
-		if which podman > /dev/null; then 
-			echo -n "podman"
-	 	else echo -n "docker"
- 		fi
-	}
 
 	function ,exec-first(){
 		local containerengine="$(,container_engine)"
@@ -71,41 +61,11 @@ then
 		fi
 
 }
-
-  	function disable_yama_ptrace_scope(){
-  		sudo bash -c  echo "0" > /proc/sys/kernel/yama/ptrace_scope
-  	}
-	function batterystatus(){
-		#call with -n for a notify-send version.
-		powerLevelLong=`upower -i $(upower -e | grep 'BAT') | grep -E "state|to full|percentage" | grep perc`
-		powerLevel=${powerLevelLong#*percentage:}
-		pl=`echo $powerLevel` #removes tabs before the percentage
-		charging=`upower -i $(upower -e) | grep 'online:'`
-		chargingReduced=${charging#*online:}
-		timeTillEmpty=`upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "time to empty:" | sed 's/.*://'`
-		if [[ "$1" == "-n" ]]
-		then
-		    if [ -z "$timeTillEmpty" ]
-		    then
-			notify-send -t 3000 "Battery Status" "Currently at: $pl\nCharging:$chargingReduced"
-		else
-			notify-send -t 3000 "Battery Status" "Currently at: $pl\nCharging:$chargingReduced\nTime remaining:$timeTillEmpty"
-		fi
-		else
-			echo "Battery currently at: $pl at `date '+%R'`"
-			echo "Charging: $chargingReduced"
-		fi
-	}
   fi 
 
   if [ "$(uname)" = "FreeBSD" ]
   then
 	alias free="grep memory /var/run/dmesg.boot"
-  fi
-
-  if [ "$(uname)" = "OpenBSD" ]
-  then
-	echo -n ""
   fi
 
 ###############

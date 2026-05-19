@@ -143,6 +143,7 @@ alias bae='$EDITOR ~/.bash_aliases'
 #Misc aliases
 alias ncdu='ncdu --exclude git --exclude .cache --exclude Downloads'
 alias cloc='cloc --exclude-dir=catch2 --exclude-lang=make,CMake,XML,Dockerfile,Prolog --not-match-d=build'
+alias pwgen='pwgen -1 14'
 
 #Fun aliases
 alias hackerMode='setterm -foreground green'

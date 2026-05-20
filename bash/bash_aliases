@@ -155,7 +155,12 @@ alias grepr="grep -RIin --exclude-dir=node_modules --exclude-dir=.cache --exclud
 alias gc="git commit -m"
 alias ga="git add -N . && git add -p"
 alias gp="git push"
-alias gcl="test -d ~/git || mkdir ~/git; cd ~/git; git clone"
+function gcl(){
+	test -d ~/git || mkdir ~/git
+	cd ~/git
+	git clone "$1"
+	cd "$(basename $1)"
+}
 alias gap="git add -p"
 alias gpl="git pull"
 alias gs="git status"

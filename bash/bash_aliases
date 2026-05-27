@@ -73,6 +73,13 @@ then
 ###############
 
 
+function ,,update_bash_aliases() {
+	local dir="$(mktemp -d)"
+	git clone https://github.com/chrisy2hats/dotfiles "$dir"
+	cp -f "$dir/bash/bash_aliases" ~/.bash_aliases
+	rm -rf "$(dir)"
+}
+
 function parse_git_branch() {
 	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }

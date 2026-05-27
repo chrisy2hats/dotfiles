@@ -160,6 +160,7 @@ alias starwars='telnet towel.blinkenlights.nl'
 
 alias grepr="grep -RIin --exclude-dir=node_modules --exclude-dir=.cache --exclude-dir=.git"
 alias gc="git commit -m"
+alias gfa="git fetch -a"
 alias ga="git add -N . && git add -p"
 alias gp="git push"
 function gcl(){

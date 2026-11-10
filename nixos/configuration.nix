@@ -105,8 +105,13 @@
   nixpkgs.config.allowUnfree = true;
 
 
-  virtualisation.containers.enable = true;
   virtualisation = {
+    containers = {
+	enable = true;
+        registries.search = [
+           "docker.io"
+         ];
+    };
     podman = {
       enable = true;
 
@@ -118,9 +123,6 @@
     };
   };
 
- virtualisation.containers.registries.search = [
-    "docker.io"
-  ];
 
   services.openssh = {
     enable = false;

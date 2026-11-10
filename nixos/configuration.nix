@@ -80,6 +80,7 @@
       terminator
       cargo
       vim
+      sshfs
       golangci-lint
       go
       python3
@@ -104,7 +105,6 @@
   # Required for google-chrome
   nixpkgs.config.allowUnfree = true;
 
-
   virtualisation = {
     containers = {
 	enable = true;
@@ -123,7 +123,6 @@
     };
   };
 
-
   services.openssh = {
     enable = false;
     settings.PasswordAuthentication = false;
@@ -132,6 +131,7 @@
 
   networking.firewall.allowedTCPPorts = [ 22 25565 ];
   networking.firewall.allowedUDPPorts = [ 25565 ];
+
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.

@@ -48,6 +48,9 @@ then
 			then
 				echo "Reboot required"
 			fi
+		elif which nixos-rebuild >/dev/null; then
+			echo "Updating nixos-rebuild"
+			sudo nixos-rebuild switch --upgrade
 		elif which steamos-update >/dev/null; then
 			echo "Updating SteamOS"
 			steamos-update

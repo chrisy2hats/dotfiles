@@ -63,6 +63,11 @@ then
 			flatpak uninstall --unused -y
 		fi
 
+		if which fwupdmgr >/dev/null; then
+			echo "Firmware"
+			fwupdmgr update
+		fi
+
 }
   fi 
 

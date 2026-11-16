@@ -73,3 +73,7 @@ add-to-groups:
 
 disable-deb-src:
 	sudo sed -E -i 's/^deb-src/#deb-src/g' /etc/apt/sources.list
+
+install-nixos:
+	sudo cp -f nixos/configuration.nix /etc/nixos/configuration.nix
+	sudo nixos-rebuild switch

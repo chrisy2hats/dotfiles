@@ -93,6 +93,8 @@ fonts.packages = with pkgs; [
       terminator
       cargo
       vim
+      pinentry-qt
+      gnupg
       sshfs
       golangci-lint
       go
@@ -135,6 +137,11 @@ fonts.packages = with pkgs; [
       # Required for containers under podman-compose to be able to talk to each other.
       defaultNetwork.settings.dns_enabled = true;
     };
+  };
+
+  programs.gnupg.agent = {
+    enable = false;
+    pinentryPackage = pkgs.pinentry-qt;
   };
 
   services.openssh = {
